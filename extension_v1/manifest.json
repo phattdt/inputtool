@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "入力補助ツール",
+  "version": "1.0.0",
+  "description": "PDFからテキストを抽出して、入力補助ツールに自動で入力します。",
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "pdfjs/pdf.worker.mjs",
+        "ocr_lib/tesseract.min.js",
+        "ocr_lib/worker.min.js",
+        "ocr_lib/tesseract-core.wasm.js",
+        "ocr_lib/tesseract-core.wasm",
+        "ocr_lib/eng.traineddata",
+        "injectFillLogic.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; object-src 'self'"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ]
+}

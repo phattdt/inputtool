@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>明細書入力システム</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: white;
+      border-radius: 10px;
+      padding: 20px 30px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+      color: #2c3e50;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header h1::before {
+      content: '';
+      width: 4px;
+      height: 28px;
+      background: linear-gradient(180deg, #667eea, #764ba2);
+      border-radius: 2px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #3498db;
+    }
+
+    .back-btn {
+      background: #6c757d;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-bottom: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .back-btn:hover {
+      background: #5a6268;
+    }
+
+    .drawing-number-header {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+    }
+
+    th {
+      background: #3498db;
+      color: white;
+      padding: 12px 8px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 13px;
+      border: 1px solid #2980b9;
+    }
+
+    td {
+      padding: 4px;
+      border: 1px solid #dee2e6;
+      text-align: center;
+    }
+
+    td input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      font-size: 13px;
+      text-align: center;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    td input:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+
+    td input[type="number"] {
+      text-align: right;
+    }
+
+    .clickable-cell {
+      cursor: pointer;
+      color: #3498db;
+      text-decoration: underline;
+    }
+
+    .clickable-cell:hover {
+      color: #2980b9;
+    }
+
+    .action-btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background 0.2s;
+    }
+
+    .view-btn {
+      background: #3498db;
+      color: white;
+    }
+
+    .view-btn:hover {
+      background: #2980b9;
+    }
+
+    .delete-btn {
+      background: #e74c3c;
+      color: white;
+      margin-left: 4px;
+    }
+
+    .delete-btn:hover {
+      background: #c0392b;
+    }
+
+    .add-btn {
+      background: #27ae60;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .add-btn:hover {
+      background: #229954;
+    }
+
+    .section-table {
+      margin-bottom: 30px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      padding: 10px 15px;
+      border-radius: 6px 6px 0 0;
+      color: white;
+      margin-bottom: 0;
+    }
+
+    .section-title.material {
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+    }
+
+    .section-title.purchase {
+      background: linear-gradient(135deg, #27ae60, #229954);
+    }
+
+    .section-title.press {
+      background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    }
+
+    .section-title.secondary {
+      background: linear-gradient(135deg, #f39c12, #e67e22);
+    }
+
+    .section-table table {
+      border-top: none;
+    }
+
+    .section-table th {
+      background: #34495e;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .row-number {
+      background: #f8f9fa;
+      color: #6c757d;
+      font-weight: 500;
+      width: 50px;
+    }
+
+    .actions-cell {
+      width: 120px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>明細書入力システム</h1>
+    </div>
+
+
+    <!-- First Form: Parts List -->
+    <div id="partsListForm" class="card">
+      <h2 class="card-title">部品リスト</h2>
+      <table id="partsTable">
+        <thead>
+          <tr>
+            <th style="width: 50px;">No.</th>
+            <th>図面番号</th>
+            <th>部品名称</th>
+            <th>代表機種</th>
+            <th>見積り数</th>
+            <th>見積書＃</th>
+            <th>単価</th> <!-- Added Unit Price -->
+            <th>適用時期</th>
+            <th style="width: 120px;">操作</th>
+          </tr>
+        </thead>
+        <tbody id="partsTableBody">
+        </tbody>
+      </table>
+      <button class="add-btn" onclick="addPartRow()">
+        <span>+</span> 追加
+      </button>
+    </div>
+
+    <!-- Second Form: Detail View -->
+    <div id="detailForm" class="card hidden">
+      <button class="back-btn" onclick="goBack()">
+        <span>←</span> 戻る
+      </button>
+      <div id="drawingNumberHeader" class="drawing-number-header"></div>
+
+
+      <!-- Table 1: 単価 (Unit Price Breakdown) -->
+      <div class="section-table">
+        <div class="section-title material">単価</div>
+        <div style="padding: 15px; background: #fafbfc; border: 1px solid #eee; border-radius: 0 0 6px 6px;">
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 15px;">
+            <div>
+              <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">材料費合計</label>
+              <input type="text" id="breakdown_materialTotal"
+                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+            </div>
+            <div>
+              <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">材料管理費(2)</label>
+              <input type="text" id="breakdown_materialMgmt"
+                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+            </div>
+            <div>
+              <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">加工費合計</label>
+              <input type="text" id="breakdown_procTotal"
+                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+            </div>
+            <div>
+              <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">一般販売管理費(4)</label>
+              <input type="text" id="breakdown_genSales"
+                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+            </div>
+            <div>
+              <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">利益</label>
+              <input type="text" id="breakdown_profit"
+                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+            </div>
+            <div>
+              <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">運賃・家賃</label>
+              <input type="text" id="breakdown_freight"
+                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+            </div>
+            <div>
+              <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">材料管理費(14)</label>
+              <input type="text" id="breakdown_materialMgmt14"
+                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+            </div>
+            <div>
+              <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">一般販売管理費(15)</label>
+              <input type="text" id="breakdown_genSales15"
+                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+            </div>
+            <div>
+              <label style="display:block; font-size:12px; color:#666; margin-bottom:4px; font-weight:bold;">合計</label>
+              <input type="text" id="breakdown_total"
+                style="width:100%; padding:8px; border:1px solid #3498db; border-radius:4px; font-weight:bold;">
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Table 1: 材料費 -->
+      <div class="section-table">
+        <div class="section-title material">材料費</div>
+        <div id="materialTableBody"></div>
+        <button class="add-btn" onclick="addMaterialRow()">
+          <span>+</span> 追加
+        </button>
+      </div>
+
+      <!-- Table 2: 購入部品費 (Single Entry) -->
+      <div class="section-table">
+        <div class="section-title purchase">購入部品費</div>
+        <div id="purchaseTableBody"></div>
+        <button class="add-btn" onclick="addPurchaseRow()">
+          <span>+</span> 追加
+        </button>
+      </div>
+
+
+      <!-- Table 3: 支給部品 (New) -->
+      <div class="section-table">
+        <div class="section-title secondary">支給部品</div>
+        <div id="suppliedTableBody"></div>
+        <button class="add-btn" onclick="addSuppliedRow()">
+          <span>+</span> 追加
+        </button>
+      </div>
+
+      <!-- Table 4: 二次加工費 -->
+      <div class="section-table">
+        <div class="section-title secondary">二次加工費</div>
+        <div id="secondaryTableBody"></div>
+        <button class="add-btn" onclick="addSecondaryRow()">
+          <span>+</span> 追加
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Data storage - exposed to window for bookmark access
+    let partsData = [];
+    window.detailData = {};
+    window.currentDrawingNumber = null;
+
+    // Initialize with 10 empty rows
+    function init() {
+      for (let i = 0; i < 10; i++) {
+        partsData.push({
+          id: generateId(),
+          drawingNumber: '',
+          partName: '',
+          representativeModel: '',
+          estimatedQuantity: '',
+          estimateNumber: '',
+          unitPrice: '', // Added
+          applicationPeriod: ''
+        });
+      }
+      renderPartsTable();
+    }
+
+    function generateId() {
+      return 'id_' + Math.random().toString(36).substr(2, 9);
+    }
+
+    // Render Parts Table
+    function renderPartsTable() {
+      const tbody = document.getElementById('partsTableBody');
+      tbody.innerHTML = '';
+
+      partsData.forEach((part, index) => {
+        const row = document.createElement('tr');
+        const hasData = part.drawingNumber || part.partName || part.representativeModel ||
+          part.estimatedQuantity || part.estimateNumber || part.unitPrice || part.applicationPeriod;
+
+        row.innerHTML = `
+          <td class="row-number">${index + 1}</td>
+          <td>
+            <input type="text" value="${part.drawingNumber}" 
+              onchange="updatePart(${index}, 'drawingNumber', this.value)"
+              ${part.drawingNumber ? 'class="clickable-cell" onclick="viewDetail(\'' + part.drawingNumber + '\')" readonly' : ''}>
+          </td>
+          <td><input type="text" value="${part.partName}" onchange="updatePart(${index}, 'partName', this.value)"></td>
+          <td><input type="text" value="${part.representativeModel}" onchange="updatePart(${index}, 'representativeModel', this.value)"></td>
+          <td><input type="number" value="${part.estimatedQuantity}" onchange="updatePart(${index}, 'estimatedQuantity', this.value)"></td>
+          <td><input type="text" value="${part.estimateNumber}" onchange="updatePart(${index}, 'estimateNumber', this.value)"></td>
+          <td><input type="number" value="${part.unitPrice}" onchange="updatePart(${index}, 'unitPrice', this.value)"></td>
+          <td><input type="text" value="${part.applicationPeriod}" onchange="updatePart(${index}, 'applicationPeriod', this.value)"></td>
+          <td class="actions-cell">
+            ${part.drawingNumber ? `<button class="action-btn view-btn" onclick="viewDetail('${part.drawingNumber}')">詳細</button>` : ''}
+            ${hasData ? `<button class="action-btn delete-btn" onclick="deletePart(${index})">削除</button>` : ''}
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function updatePart(index, field, value) {
+      partsData[index][field] = value;
+      renderPartsTable();
+    }
+
+    function addPartRow() {
+      partsData.push({
+        id: generateId(),
+        drawingNumber: '',
+        partName: '',
+        representativeModel: '',
+        estimatedQuantity: '',
+        estimateNumber: '',
+        unitPrice: '',
+        applicationPeriod: ''
+      });
+      renderPartsTable();
+    }
+
+    function deletePart(index) {
+      partsData.splice(index, 1);
+      renderPartsTable();
+    }
+
+
+    function viewDetail(drawingNumber) {
+      if (!drawingNumber) return;
+
+      currentDrawingNumber = drawingNumber;
+
+      // Initialize detail data if not exists
+      if (!detailData[drawingNumber]) {
+        detailData[drawingNumber] = {
+          material: Array(10).fill(null).map(() => ({ id: generateId(), drawingNumber: '', temper: '', diameter: '', thickness: '', length: '', weight: '', unitPriceKg: '', consumptionPrice: '', materialCost: '', processingUnitPrice: '', processingPrice: '', pipingPrice: '', required: '' })),
+          purchase: Array(10).fill(null).map(() => ({ id: generateId(), partName: '', drawingNum: '', required: '', unitPrice: '' })),
+          supplied: Array(10).fill(null).map(() => ({ id: generateId(), partName: '', drawingNum: '', required: '' })),
+          // press removed
+          secondary: Array(10).fill(null).map(() => ({ id: generateId(), process: '', qty: '', seconds: '', unitPrice: '', total: '' })),
+          breakdown: {
+            materialTotal: "",
+            materialMgmt: "",
+            procTotal: "",
+            genSales: "",
+            profit: "",
+            freight: "",
+            materialMgmt14: "",
+            genSales15: "",
+            total: ""
+          }
+        };
+      }
+
+      document.getElementById('partsListForm').classList.add('hidden');
+      document.getElementById('detailForm').classList.remove('hidden');
+      document.getElementById('drawingNumberHeader').textContent = '図面番号: ' + drawingNumber;
+
+      renderDetailTables();
+      // Gọi Excel同期 tự động nếu có dữ liệu
+      if (window.gprocFillLogic && localStorage.getItem('gproc_excel_data')) {
+        try {
+          window.gprocFillLogic(JSON.parse(localStorage.getItem('gproc_excel_data')));
+        } catch (e) { console.error('Excel同期エラー:', e); }
+      }
+    }
+
+    function goBack() {
+      document.getElementById('detailForm').classList.add('hidden');
+      document.getElementById('partsListForm').classList.remove('hidden');
+      currentDrawingNumber = null;
+    }
+
+    function renderDetailTables() {
+      renderBreakdown(); // Parse Logic ensures this data exists, this renders it
+      renderMaterialTable();
+      renderPurchaseTable();
+      renderSuppliedTable();
+      renderSecondaryTable();
+    }
+
+    // Breakdown Table Renderer
+    function renderBreakdown() {
+      const bd = detailData[currentDrawingNumber].breakdown || {};
+      const fields = ['materialTotal', 'materialMgmt', 'procTotal', 'genSales', 'profit', 'freight', 'materialMgmt14', 'genSales15', 'total'];
+      fields.forEach(f => {
+        const el = document.getElementById('breakdown_' + f);
+        if (el) el.value = bd[f] || "";
+        // Add onchange listener to update data model
+        if (el) {
+          el.onchange = function () {
+            if (!detailData[currentDrawingNumber].breakdown) detailData[currentDrawingNumber].breakdown = {};
+            detailData[currentDrawingNumber].breakdown[f] = this.value;
+          };
+        }
+      });
+    }
+
+    // Material Table (Unchanged logic, just keeping placeholder)
+    function renderMaterialTable() {
+      const tbody = document.getElementById('materialTableBody');
+      tbody.innerHTML = '';
+      const data = detailData[currentDrawingNumber].material;
+      data.forEach((item, index) => {
+        const hasData = item.drawingNumber || item.temper || item.diameter || item.thickness || item.length ||
+          item.weight || item.unitPriceKg || item.consumptionPrice || item.materialCost ||
+          item.processingUnitPrice || item.processingPrice || item.pipingPrice || item.required;
+        const dataCount = data.filter(d => d.drawingNumber || d.temper || d.diameter || d.thickness || d.length || d.weight || d.unitPriceKg || d.consumptionPrice || d.materialCost || d.processingUnitPrice || d.processingPrice || d.pipingPrice || d.required).length;
+        if (!hasData && index >= Math.max(1, dataCount)) return;
+        const group = document.createElement('div');
+        group.className = 'material-form-group';
+        group.style = 'border:1px solid #eee; border-radius:8px; margin-bottom:18px; padding:18px 16px; background:#fafbfc; box-shadow:0 2px 8px rgba(102,126,234,0.04);';
+        group.innerHTML = `
+          <div style="font-weight:600; color:#c0392b; margin-bottom:8px;">材料費 #${index + 1}</div>
+          <div style="display:flex; gap:24px; flex-wrap:wrap; margin-bottom:8px;">
+            <div style="min-width:180px;">図面番号: <input type="text" value="${item.drawingNumber}" onchange="updateMaterial(${index}, 'drawingNumber', this.value)"></div>
+            <div style="min-width:120px;">調質: <input type="text" value="${item.temper}" onchange="updateMaterial(${index}, 'temper', this.value)"></div>
+          </div>
+          <div style="font-weight:500; margin-bottom:6px;">サイズ</div>
+          <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:8px;">
+            <div>φ: <input type="number" value="${item.diameter}" onchange="updateMaterial(${index}, 'diameter', this.value)" style="width:70px;"></div>
+            <div>t: <input type="number" value="${item.thickness}" onchange="updateMaterial(${index}, 'thickness', this.value)" style="width:70px;"></div>
+            <div>l: <input type="number" value="${item.length}" onchange="updateMaterial(${index}, 'length', this.value)" style="width:70px;"></div>
+          </div>
+          <div style="display:flex; gap:24px; flex-wrap:wrap; margin-bottom:8px;">
+            <div>重量(g): <input type="number" value="${item.weight}" onchange="updateMaterial(${index}, 'weight', this.value)" style="width:100px;"></div>
+            <div>単価/Kg: <input type="number" value="${item.unitPriceKg}" onchange="updateMaterial(${index}, 'unitPriceKg', this.value)" style="width:100px;"></div>
+            <div>消費材料費: <input type="number" value="${item.consumptionPrice}" onchange="updateMaterial(${index}, 'consumptionPrice', this.value)" style="width:100px;"></div>
+          </div>
+          <div style="display:flex; gap:24px; flex-wrap:wrap; margin-bottom:8px;">
+            <div>材料費: <input type="number" value="${item.materialCost}" onchange="updateMaterial(${index}, 'materialCost', this.value)" style="width:100px;"></div>
+            <div>加工単価: <input type="number" value="${item.processingUnitPrice}" onchange="updateMaterial(${index}, 'processingUnitPrice', this.value)" style="width:100px;"></div>
+            <div>加工価格: <input type="number" value="${item.processingPrice}" onchange="updateMaterial(${index}, 'processingPrice', this.value)" style="width:100px;"></div>
+            <div>配管価格: <input type="number" value="${item.pipingPrice}" onchange="updateMaterial(${index}, 'pipingPrice', this.value)" style="width:100px;"></div>
+            <div>所要数: <input type="number" value="${item.required}" onchange="updateMaterial(${index}, 'required', this.value)" style="width:100px;"></div>
+          </div>
+          <div style="margin-top:8px;">
+            <button class="action-btn delete-btn" onclick="deleteMaterial(${index})">削除</button>
+          </div>
+        `;
+        tbody.appendChild(group);
+      });
+    }
+
+    function updateMaterial(index, field, value) {
+      detailData[currentDrawingNumber].material[index][field] = value;
+      renderMaterialTable();
+    }
+
+    function addMaterialRow() {
+      detailData[currentDrawingNumber].material.push({ id: generateId(), drawingNumber: '', temper: '', diameter: '', thickness: '', length: '', weight: '', unitPriceKg: '', consumptionPrice: '', materialCost: '', processingUnitPrice: '', processingPrice: '', pipingPrice: '', required: '' });
+      renderMaterialTable();
+    }
+
+    function deleteMaterial(index) {
+      detailData[currentDrawingNumber].material.splice(index, 1);
+      renderMaterialTable();
+    }
+
+    // Purchase Table (Simplified to single entry per row)
+    function renderPurchaseTable() {
+      const tbody = document.getElementById('purchaseTableBody');
+      tbody.innerHTML = '';
+      const data = detailData[currentDrawingNumber].purchase;
+      data.forEach(function (item, index) {
+        var hasData = item.partName || item.drawingNum || item.required || item.unitPrice;
+        var dataCount = data.filter(function (d) { return d.partName || d.drawingNum || d.required || d.unitPrice; }).length;
+        if (!hasData && index >= Math.max(1, dataCount)) return;
+        var group = document.createElement('div');
+        group.className = 'purchase-form-group';
+        group.style = 'border:1px solid #eee; border-radius:8px; margin-bottom:18px; padding:18px 16px; background:#fafbfc; box-shadow:0 2px 8px rgba(102,126,234,0.04);';
+        group.innerHTML = `
+          <div style="font-weight:600; color:#229954; margin-bottom:8px;">購入部品費 #${index + 1}</div>
+          <div style="display:flex; gap:24px; flex-wrap:wrap; margin-bottom:8px;">
+            <div>部品名及び仕様: <input type="text" value="${item.partName || ''}" onchange="updatePurchase(${index}, 'partName', this.value)"></div>
+            <div>図面番号: <input type="text" value="${item.drawingNum || ''}" onchange="updatePurchase(${index}, 'drawingNum', this.value)"></div>
+            <div>所要数: <input type="number" value="${item.required || ''}" onchange="updatePurchase(${index}, 'required', this.value)"></div>
+            <div>単価: <input type="number" value="${item.unitPrice || ''}" onchange="updatePurchase(${index}, 'unitPrice', this.value)"></div>
+          </div>
+          <div style="margin-top:8px;">
+            ${hasData ? `<button class="action-btn delete-btn" onclick="deletePurchase(${index})">削除</button>` : ''}
+          </div>
+        `;
+        tbody.appendChild(group);
+      });
+    }
+
+    function updatePurchase(index, field, value) {
+      detailData[currentDrawingNumber].purchase[index][field] = value;
+      renderPurchaseTable();
+    }
+
+    function addPurchaseRow() {
+      detailData[currentDrawingNumber].purchase.push({ id: generateId(), partName: '', drawingNum: '', required: '', unitPrice: '' });
+      renderPurchaseTable();
+    }
+
+    function deletePurchase(index) {
+      detailData[currentDrawingNumber].purchase.splice(index, 1);
+      renderPurchaseTable();
+    }
+
+    // Supplied Parts Table (New)
+    function renderSuppliedTable() {
+      const tbody = document.getElementById('suppliedTableBody');
+      tbody.innerHTML = '';
+      const data = detailData[currentDrawingNumber].supplied;
+      data.forEach(function (item, index) {
+        var hasData = item.partName || item.drawingNum || item.required;
+        var dataCount = data.filter(function (d) { return d.partName || d.drawingNum || d.required; }).length;
+        if (!hasData && index >= Math.max(1, dataCount)) return;
+        var group = document.createElement('div');
+        group.className = 'supplied-form-group';
+        group.style = 'border:1px solid #eee; border-radius:8px; margin-bottom:18px; padding:18px 16px; background:#fff8e1; box-shadow:0 2px 8px rgba(241, 196, 15, 0.1);';
+        group.innerHTML = `
+          <div style="font-weight:600; color:#d4ac0d; margin-bottom:8px;">支給部品 #${index + 1}</div>
+          <div style="display:flex; gap:24px; flex-wrap:wrap; margin-bottom:8px;">
+            <div>部品名及び仕様: <input type="text" value="${item.partName || ''}" onchange="updateSupplied(${index}, 'partName', this.value)"></div>
+            <div>図面番号: <input type="text" value="${item.drawingNum || ''}" onchange="updateSupplied(${index}, 'drawingNum', this.value)"></div>
+            <div>所要数: <input type="number" value="${item.required || ''}" onchange="updateSupplied(${index}, 'required', this.value)"></div>
+          </div>
+          <div style="margin-top:8px;">
+            ${hasData ? `<button class="action-btn delete-btn" onclick="deleteSupplied(${index})">削除</button>` : ''}
+          </div>
+        `;
+        tbody.appendChild(group);
+      });
+    }
+
+    function updateSupplied(index, field, value) {
+      detailData[currentDrawingNumber].supplied[index][field] = value;
+      renderSuppliedTable();
+    }
+
+    function addSuppliedRow() {
+      detailData[currentDrawingNumber].supplied.push({ id: generateId(), partName: '', drawingNum: '', required: '' });
+      renderSuppliedTable();
+    }
+
+    function deleteSupplied(index) {
+      detailData[currentDrawingNumber].supplied.splice(index, 1);
+      renderSuppliedTable();
+    }
+
+    // Press Table (Unchanged)
+    function renderPressTable() {
+      const tbody = document.getElementById('pressTableBody');
+      tbody.innerHTML = '';
+      const data = detailData[currentDrawingNumber].press;
+      data.forEach(function (item, index) {
+        var hasData = item.partName || item.process || item.equipment || item.cycle || item.charge || item.cost || item.required;
+        var dataCount = data.filter(function (d) { return d.partName || d.process || d.equipment || d.cycle || d.charge || d.cost || d.required; }).length;
+        if (!hasData && index >= Math.max(1, dataCount)) return;
+        var group = document.createElement('div');
+        group.className = 'press-form-group';
+        group.style = 'border:1px solid #eee; border-radius:8px; margin-bottom:18px; padding:18px 16px; background:#fafbfc; box-shadow:0 2px 8px rgba(102,126,234,0.04);';
+        group.innerHTML = `
+          <div style="font-weight:600; color:#8e44ad; margin-bottom:8px;">プレス・配管加工費 #${index + 1}</div>
+          <div style="display:flex; gap:24px; flex-wrap:wrap; margin-bottom:8px;">
+            <div>部品名及び仕様: <input type="text" value="${item.partName || ''}" onchange="updatePress(${index}, 'partName', this.value)"></div>
+            <div>図面番号: <input type="text" value="${item.process || ''}" onchange="updatePress(${index}, 'process', this.value)"></div>
+            <div>所要数: <input type="text" value="${item.equipment || ''}" onchange="updatePress(${index}, 'equipment', this.value)"></div>
+            <div>部品名及び仕様: <input type="number" value="${item.cycle || ''}" onchange="updatePress(${index}, 'cycle', this.value)"></div>
+            <div>図面番号: <input type="number" value="${item.charge || ''}" onchange="updatePress(${index}, 'charge', this.value)"></div>
+            <div>加工費: <input type="number" value="${item.cost || ''}" onchange="updatePress(${index}, 'cost', this.value)"></div>
+            <div>所要数: <input type="number" value="${item.required || ''}" onchange="updatePress(${index}, 'required', this.value)"></div>
+          </div>
+          <div style="margin-top:8px;">
+            ${hasData ? `<button class="action-btn delete-btn" onclick="deletePress(${index})">削除</button>` : ''}
+          </div>
+        `;
+        tbody.appendChild(group);
+      });
+    }
+
+    function updatePress(index, field, value) {
+      detailData[currentDrawingNumber].press[index][field] = value;
+      renderPressTable();
+    }
+
+    function addPressRow() {
+      detailData[currentDrawingNumber].press.push({ id: generateId(), partName: '', process: '', equipment: '', cycle: '', charge: '', cost: '', required: '' });
+      renderPressTable();
+    }
+
+    function deletePress(index) {
+      detailData[currentDrawingNumber].press.splice(index, 1);
+      renderPressTable();
+    }
+
+    // Secondary Table (Simplified: removed packing and remarks)
+    function renderSecondaryTable() {
+      const tbody = document.getElementById('secondaryTableBody');
+      tbody.innerHTML = '';
+      const data = detailData[currentDrawingNumber].secondary;
+      data.forEach(function (item, index) {
+        var hasData = item.process || item.qty || item.seconds || item.unitPrice || item.total;
+        var dataCount = data.filter(function (d) { return d.process || d.qty || d.seconds || d.unitPrice || d.total; }).length;
+        if (!hasData && index >= Math.max(1, dataCount)) return;
+        var group = document.createElement('div');
+        group.className = 'secondary-form-group';
+        group.style = 'border:1px solid #eee; border-radius:8px; margin-bottom:18px; padding:18px 16px; background:#fafbfc; box-shadow:0 2px 8px rgba(102,126,234,0.04);';
+        group.innerHTML = `
+          <div style="font-weight:600; color:#e67e22; margin-bottom:8px;">二次加工費 #${index + 1}</div>
+          <div style="display:flex; gap:24px; flex-wrap:wrap; margin-bottom:8px;">
+            <div>加工工程: <input type="text" value="${item.process || ''}" onchange="updateSecondary(${index}, 'process', this.value)"></div>
+            <div>個数: <input type="number" value="${item.qty || ''}" onchange="updateSecondary(${index}, 'qty', this.value)"></div>
+            <div>（秒）: <input type="number" value="${item.seconds || ''}" onchange="updateSecondary(${index}, 'seconds', this.value)"></div>
+            <div>単価: <input type="number" value="${item.unitPrice || ''}" onchange="updateSecondary(${index}, 'unitPrice', this.value)"></div>
+            <div>金額: <input type="number" value="${item.total || ''}" onchange="updateSecondary(${index}, 'total', this.value)"></div>
+          </div>
+          <div style="margin-top:8px;">
+            ${hasData ? `<button class="action-btn delete-btn" onclick="deleteSecondary(${index})">削除</button>` : ''}
+          </div>
+        `;
+        tbody.appendChild(group);
+      });
+    }
+
+    function updateSecondary(index, field, value) {
+      detailData[currentDrawingNumber].secondary[index][field] = value;
+      renderSecondaryTable();
+    }
+
+    function addSecondaryRow() {
+      detailData[currentDrawingNumber].secondary.push({ id: generateId(), process: '', qty: '', seconds: '', unitPrice: '', total: '' });
+      renderSecondaryTable();
+    }
+
+    function deleteSecondary(index) {
+      detailData[currentDrawingNumber].secondary.splice(index, 1);
+      renderSecondaryTable();
+    }
+
+    // Initialize on page load
+    init();
+  </script>
+</body>
+
+</html>
