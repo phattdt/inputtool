@@ -215,15 +215,31 @@ javascript: (function () {
 			}
 			return -1;
 		}
+		function parseKeyValue(cellValue) {
+			if (!cellValue || typeof cellValue !== 'string') return null;
+			const delimiters = ['\n', '\r\n', ':', '：', '＝', '='];
+			for (const d of delimiters) {
+				const idx = cellValue.indexOf(d);
+				if (idx > 0 && idx < cellValue.length - 1) {
+					return { key: cellValue.substring(0, idx).trim(), value: cellValue.substring(idx + 1).trim() };
+				}
+			}
+			return null;
+		}
 		function getVal(row, headerRow, mapKey, mapping) {
 			const mappedItem = mapping[mapKey];
 			if (!mappedItem) return "";
+			let cellValue = "";
 			if (typeof mappedItem === 'object' && mappedItem.colIdx !== undefined) {
-				return row[mappedItem.colIdx] || "";
+				cellValue = row[mappedItem.colIdx] || "";
+			} else {
+				const colIndex = headerRow.findIndex(h => h === mappedItem);
+				if (colIndex === -1) return "";
+				cellValue = row[colIndex] || "";
 			}
-			const colIndex = headerRow.findIndex(h => h === mappedItem);
-			if (colIndex === -1) return "";
-			return row[colIndex] || "";
+			const kv = parseKeyValue(String(cellValue));
+			if (kv) return kv.value;
+			return cellValue;
 		}
 		function getValNum(row, headerRow, mapKey, mapping) {
 			const val = getVal(row, headerRow, mapKey, mapping);
@@ -268,16 +284,27 @@ javascript: (function () {
 					if (headerIdx === -1) headerIdx = 0;
 					const headerRow = rows[headerIdx];
 
-					var record = {};
-					if (rows.length > headerIdx + 1) {
-						const dataRow = rows[headerIdx + 1];
-						record["図面番号"] = getVal(dataRow, headerRow, "parts_drawingNumber", mapping);
-						record["部品名称"] = getVal(dataRow, headerRow, "parts_partName", mapping);
-						record["代表機種"] = getVal(dataRow, headerRow, "parts_model", mapping);
-						record["見積り数"] = getVal(dataRow, headerRow, "parts_estimatedQty", mapping);
-						record["見積書＃"] = getVal(dataRow, headerRow, "parts_estimateNum", mapping);
-						record["適用時期"] = getVal(dataRow, headerRow, "parts_appPeriod", mapping);
+					function getValSmart(mapKey) {
+						const mappedItem = mapping[mapKey];
+						if (!mappedItem || typeof mappedItem !== 'object') return "";
+						const colIdx = mappedItem.colIdx;
+						if (colIdx === undefined) return "";
+						const headerCellValue = String(headerRow[colIdx] || "");
+						const kv = parseKeyValue(headerCellValue);
+						if (kv && kv.value) return kv.value;
+						if (rows.length > headerIdx + 1) {
+							const dataRow = rows[headerIdx + 1];
+							return dataRow[colIdx] || "";
+						}
+						return "";
 					}
+					var record = {};
+					record["図面番号"] = getValSmart("parts_drawingNumber");
+					record["部品名称"] = getValSmart("parts_partName");
+					record["代表機種"] = getValSmart("parts_model");
+					record["見積り数"] = getValSmart("parts_estimatedQty");
+					record["見積書＃"] = getValSmart("parts_estimateNum");
+					record["適用時期"] = getValSmart("parts_appPeriod");
 					if (record["図面番号"] == undefined && record["適用機種名"]) {
 						record["図面番号"] = record["適用機種名"];
 					}
@@ -475,9 +502,20 @@ javascript: (function () {
 											let text = '';
 											if (cell && typeof cell === 'string') text = clean(cell);
 											else if (cell) text = String(cell).trim();
-											if (text && !seen.has(text + '_' + currentSection)) {
-												seen.add(text + '_' + currentSection);
-												headerItems.push({ text: text, rowIdx: rowIdx, colIdx: colIdx, section: currentSection, display: text + ' (' + currentSection + ')' });
+											const kvDelimiters = ['\n', '\r\n', ':', '：', '＝', '='];
+											let keyPart = text;
+											let isKeyValueCell = false;
+											for (const d of kvDelimiters) {
+												const idx = text.indexOf(d);
+												if (idx > 0 && idx < text.length - 1) {
+													keyPart = text.substring(0, idx).trim();
+													isKeyValueCell = true;
+													break;
+												}
+											}
+											if (keyPart && !seen.has(keyPart + '_' + currentSection)) {
+												seen.add(keyPart + '_' + currentSection);
+												headerItems.push({ text: keyPart, rowIdx: rowIdx, colIdx: colIdx, section: currentSection, isKeyValueCell: isKeyValueCell, display: keyPart + ' (' + currentSection + ')' });
 											}
 										});
 									}
