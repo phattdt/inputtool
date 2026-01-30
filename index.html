@@ -99,30 +99,26 @@
       margin-bottom: 15px;
     }
 
+    th,
+    td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
     th {
       background: #3498db;
       color: white;
-      padding: 12px 8px;
-      text-align: center;
-      font-weight: 600;
+      font-weight: 500;
       font-size: 13px;
-      border: 1px solid #2980b9;
-    }
-
-    td {
-      padding: 4px;
-      border: 1px solid #dee2e6;
-      text-align: center;
     }
 
     td input {
       width: 100%;
-      padding: 8px;
-      border: 1px solid #e0e0e0;
+      padding: 6px 8px;
+      border: 1px solid #ddd;
       border-radius: 4px;
       font-size: 13px;
-      text-align: center;
-      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     td input:focus {
@@ -131,27 +127,31 @@
       box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
     }
 
-    td input[type="number"] {
-      text-align: right;
-    }
-
-    .clickable-cell {
+    .add-btn {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
       cursor: pointer;
-      color: #3498db;
-      text-decoration: underline;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
     }
 
-    .clickable-cell:hover {
-      color: #2980b9;
+    .add-btn:hover {
+      opacity: 0.9;
     }
 
     .action-btn {
-      padding: 6px 12px;
+      padding: 5px 12px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
       font-size: 12px;
-      transition: background 0.2s;
+      margin-right: 5px;
     }
 
     .view-btn {
@@ -159,44 +159,26 @@
       color: white;
     }
 
-    .view-btn:hover {
-      background: #2980b9;
-    }
-
     .delete-btn {
       background: #e74c3c;
       color: white;
-      margin-left: 4px;
     }
 
-    .delete-btn:hover {
-      background: #c0392b;
-    }
-
-    .add-btn {
-      background: #27ae60;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
+    .clickable-cell {
+      color: #3498db;
       cursor: pointer;
-      font-size: 14px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 10px;
-    }
-
-    .add-btn:hover {
-      background: #229954;
+      text-decoration: underline;
     }
 
     .section-table {
-      margin-bottom: 30px;
+      margin-bottom: 25px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
 
     .section-title {
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 600;
       padding: 10px 15px;
       border-radius: 6px 6px 0 0;
@@ -208,24 +190,76 @@
       background: linear-gradient(135deg, #e74c3c, #c0392b);
     }
 
-    .section-title.purchase {
-      background: linear-gradient(135deg, #27ae60, #229954);
+    .section-title.material-detail {
+      background: linear-gradient(135deg, #e67e22, #d35400);
     }
 
-    .section-title.press {
+    .section-title.processing3 {
       background: linear-gradient(135deg, #9b59b6, #8e44ad);
     }
 
-    .section-title.secondary {
+    .section-title.processing2 {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+    }
+
+    .section-title.parts {
+      background: linear-gradient(135deg, #27ae60, #229954);
+    }
+
+    .section-title.packaging {
+      background: linear-gradient(135deg, #1abc9c, #16a085);
+    }
+
+    .section-title.transport {
+      background: linear-gradient(135deg, #34495e, #2c3e50);
+    }
+
+    .section-title.other {
+      background: linear-gradient(135deg, #7f8c8d, #6c757d);
+    }
+
+    .section-title.mold {
       background: linear-gradient(135deg, #f39c12, #e67e22);
     }
 
-    .section-table table {
-      border-top: none;
+    .section-title.management {
+      background: linear-gradient(135deg, #95a5a6, #7f8c8d);
     }
 
-    .section-table th {
-      background: #34495e;
+    .section-title.profit {
+      background: linear-gradient(135deg, #2ecc71, #27ae60);
+    }
+
+    .section-content {
+      padding: 15px;
+      background: #fafbfc;
+      border: 1px solid #eee;
+      border-radius: 0 0 6px 6px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 4px;
+    }
+
+    .form-group input,
+    .form-group select {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 13px;
     }
 
     .hidden {
@@ -242,6 +276,21 @@
     .actions-cell {
       width: 120px;
     }
+
+    .detail-row {
+      border: 1px solid #eee;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      padding: 15px;
+      background: white;
+    }
+
+    .detail-row-header {
+      font-weight: 600;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #eee;
+    }
   </style>
 </head>
 
@@ -251,21 +300,20 @@
       <h1>明細書入力システム</h1>
     </div>
 
-
-    <!-- First Form: Parts List -->
+    <!-- First Form: Parts List (見積書) -->
     <div id="partsListForm" class="card">
-      <h2 class="card-title">部品リスト</h2>
+      <h2 class="card-title">見積書リスト</h2>
       <table id="partsTable">
         <thead>
           <tr>
             <th style="width: 50px;">No.</th>
             <th>図面番号</th>
-            <th>部品名称</th>
-            <th>代表機種</th>
-            <th>見積り数</th>
-            <th>見積書＃</th>
-            <th>単価</th> <!-- Added Unit Price -->
-            <th>適用時期</th>
+            <th>見積書番号</th>
+            <th>事部コード</th>
+            <th>工程</th>
+            <th>累進</th>
+            <th>品名仕様</th>
+            <th>備考</th>
             <th style="width: 120px;">操作</th>
           </tr>
         </thead>
@@ -284,98 +332,111 @@
       </button>
       <div id="drawingNumberHeader" class="drawing-number-header"></div>
 
-
-      <!-- Table 1: 単価 (Unit Price Breakdown) -->
+      <!-- Section 2: 材料費（樹脂） -->
       <div class="section-table">
-        <div class="section-title material">単価</div>
-        <div style="padding: 15px; background: #fafbfc; border: 1px solid #eee; border-radius: 0 0 6px 6px;">
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 15px;">
-            <div>
-              <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">材料費合計</label>
-              <input type="text" id="breakdown_materialTotal"
-                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
-            </div>
-            <div>
-              <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">材料管理費(2)</label>
-              <input type="text" id="breakdown_materialMgmt"
-                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
-            </div>
-            <div>
-              <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">加工費合計</label>
-              <input type="text" id="breakdown_procTotal"
-                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
-            </div>
-            <div>
-              <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">一般販売管理費(4)</label>
-              <input type="text" id="breakdown_genSales"
-                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
-            </div>
-            <div>
-              <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">利益</label>
-              <input type="text" id="breakdown_profit"
-                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
-            </div>
-            <div>
-              <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">運賃・家賃</label>
-              <input type="text" id="breakdown_freight"
-                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
-            </div>
-            <div>
-              <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">材料管理費(14)</label>
-              <input type="text" id="breakdown_materialMgmt14"
-                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
-            </div>
-            <div>
-              <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">一般販売管理費(15)</label>
-              <input type="text" id="breakdown_genSales15"
-                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
-            </div>
-            <div>
-              <label style="display:block; font-size:12px; color:#666; margin-bottom:4px; font-weight:bold;">合計</label>
-              <input type="text" id="breakdown_total"
-                style="width:100%; padding:8px; border:1px solid #3498db; border-radius:4px; font-weight:bold;">
-            </div>
+        <div class="section-title material">材料費（樹脂）</div>
+        <div class="section-content">
+          <div class="form-grid" id="materialResinForm">
+            <!-- Rendered by JS -->
           </div>
         </div>
       </div>
 
-
-      <!-- Table 1: 材料費 -->
+      <!-- Section 3: 材料費（樹脂）明細 -->
       <div class="section-table">
-        <div class="section-title material">材料費</div>
-        <div id="materialTableBody"></div>
-        <button class="add-btn" onclick="addMaterialRow()">
+        <div class="section-title material-detail">材料費（樹脂）明細</div>
+        <div id="materialDetailBody"></div>
+        <button class="add-btn" onclick="addMaterialDetailRow()">
           <span>+</span> 追加
         </button>
       </div>
 
-      <!-- Table 2: 購入部品費 (Single Entry) -->
+      <!-- Section 4: 加工費（パターン３） -->
       <div class="section-table">
-        <div class="section-title purchase">購入部品費</div>
-        <div id="purchaseTableBody"></div>
-        <button class="add-btn" onclick="addPurchaseRow()">
+        <div class="section-title processing3">加工費（パターン３）</div>
+        <div id="processing3Body"></div>
+        <button class="add-btn" onclick="addProcessing3Row()">
           <span>+</span> 追加
         </button>
       </div>
 
-
-      <!-- Table 3: 支給部品 (New) -->
+      <!-- Section 5: 加工費（パターン２） -->
       <div class="section-table">
-        <div class="section-title secondary">支給部品</div>
-        <div id="suppliedTableBody"></div>
-        <button class="add-btn" onclick="addSuppliedRow()">
+        <div class="section-title processing2">加工費（パターン２）</div>
+        <div id="processing2Body"></div>
+        <button class="add-btn" onclick="addProcessing2Row()">
           <span>+</span> 追加
         </button>
       </div>
 
-      <!-- Table 4: 二次加工費 -->
+      <!-- Section 6: 部品費 -->
       <div class="section-table">
-        <div class="section-title secondary">二次加工費</div>
-        <div id="secondaryTableBody"></div>
-        <button class="add-btn" onclick="addSecondaryRow()">
+        <div class="section-title parts">部品費</div>
+        <div id="partsDetailBody"></div>
+        <button class="add-btn" onclick="addPartsDetailRow()">
           <span>+</span> 追加
         </button>
       </div>
+
+      <!-- Section 7: 梱包費 -->
+      <div class="section-table">
+        <div class="section-title packaging">梱包費</div>
+        <div id="packagingBody"></div>
+        <button class="add-btn" onclick="addPackagingRow()">
+          <span>+</span> 追加
+        </button>
+      </div>
+
+      <!-- Section 8: 輸送費 -->
+      <div class="section-table">
+        <div class="section-title transport">輸送費</div>
+        <div class="section-content">
+          <div class="form-grid" id="transportForm">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 9: その他費 -->
+      <div class="section-table">
+        <div class="section-title other">その他費</div>
+        <div class="section-content">
+          <div class="form-grid" id="otherCostForm">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 10: 金型費 -->
+      <div class="section-table">
+        <div class="section-title mold">金型費</div>
+        <div class="section-content">
+          <div class="form-grid" id="moldCostForm">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 11: 管理費 -->
+      <div class="section-table">
+        <div class="section-title management">管理費</div>
+        <div class="section-content">
+          <div class="form-grid" id="managementForm">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 12: 利益 -->
+      <div class="section-table">
+        <div class="section-title profit">利益</div>
+        <div class="section-content">
+          <div class="form-grid" id="profitForm">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -385,36 +446,34 @@
     window.detailData = {};
     window.currentDrawingNumber = null;
 
-    // Initialize with 10 empty rows
+    function generateId() {
+      return 'id_' + Math.random().toString(36).substr(2, 9);
+    }
+
+    // ========== PARTS LIST (見積書) ==========
     function init() {
       for (let i = 0; i < 10; i++) {
         partsData.push({
           id: generateId(),
           drawingNumber: '',
-          partName: '',
-          representativeModel: '',
-          estimatedQuantity: '',
-          estimateNumber: '',
-          unitPrice: '', // Added
-          applicationPeriod: ''
+          quoteNumber: '',
+          deptCode: '',
+          process: '',
+          progressive: '',
+          productName: '',
+          remarks: ''
         });
       }
       renderPartsTable();
     }
 
-    function generateId() {
-      return 'id_' + Math.random().toString(36).substr(2, 9);
-    }
-
-    // Render Parts Table
     function renderPartsTable() {
       const tbody = document.getElementById('partsTableBody');
       tbody.innerHTML = '';
 
       partsData.forEach((part, index) => {
         const row = document.createElement('tr');
-        const hasData = part.drawingNumber || part.partName || part.representativeModel ||
-          part.estimatedQuantity || part.estimateNumber || part.unitPrice || part.applicationPeriod;
+        const hasData = part.drawingNumber || part.quoteNumber || part.deptCode || part.process || part.progressive || part.productName || part.remarks;
 
         row.innerHTML = `
           <td class="row-number">${index + 1}</td>
@@ -423,12 +482,12 @@
               onchange="updatePart(${index}, 'drawingNumber', this.value)"
               ${part.drawingNumber ? 'class="clickable-cell" onclick="viewDetail(\'' + part.drawingNumber + '\')" readonly' : ''}>
           </td>
-          <td><input type="text" value="${part.partName}" onchange="updatePart(${index}, 'partName', this.value)"></td>
-          <td><input type="text" value="${part.representativeModel}" onchange="updatePart(${index}, 'representativeModel', this.value)"></td>
-          <td><input type="number" value="${part.estimatedQuantity}" onchange="updatePart(${index}, 'estimatedQuantity', this.value)"></td>
-          <td><input type="text" value="${part.estimateNumber}" onchange="updatePart(${index}, 'estimateNumber', this.value)"></td>
-          <td><input type="number" value="${part.unitPrice}" onchange="updatePart(${index}, 'unitPrice', this.value)"></td>
-          <td><input type="text" value="${part.applicationPeriod}" onchange="updatePart(${index}, 'applicationPeriod', this.value)"></td>
+          <td><input type="text" value="${part.quoteNumber}" onchange="updatePart(${index}, 'quoteNumber', this.value)"></td>
+          <td><input type="text" value="${part.deptCode}" onchange="updatePart(${index}, 'deptCode', this.value)"></td>
+          <td><input type="text" value="${part.process}" onchange="updatePart(${index}, 'process', this.value)"></td>
+          <td><input type="text" value="${part.progressive}" onchange="updatePart(${index}, 'progressive', this.value)"></td>
+          <td><input type="text" value="${part.productName}" onchange="updatePart(${index}, 'productName', this.value)"></td>
+          <td><input type="text" value="${part.remarks}" onchange="updatePart(${index}, 'remarks', this.value)"></td>
           <td class="actions-cell">
             ${part.drawingNumber ? `<button class="action-btn view-btn" onclick="viewDetail('${part.drawingNumber}')">詳細</button>` : ''}
             ${hasData ? `<button class="action-btn delete-btn" onclick="deletePart(${index})">削除</button>` : ''}
@@ -447,55 +506,39 @@
       partsData.push({
         id: generateId(),
         drawingNumber: '',
-        partName: '',
-        representativeModel: '',
-        estimatedQuantity: '',
-        estimateNumber: '',
-        unitPrice: '',
-        applicationPeriod: ''
+        quoteNumber: '',
+        deptCode: '',
+        process: '',
+        progressive: '',
+        productName: '',
+        remarks: ''
       });
       renderPartsTable();
     }
 
     function deletePart(index) {
+      const drawingNumber = partsData[index].drawingNumber;
+      if (drawingNumber && detailData[drawingNumber]) {
+        delete detailData[drawingNumber];
+      }
       partsData.splice(index, 1);
       renderPartsTable();
     }
 
-
+    // ========== DETAIL VIEW ==========
     function viewDetail(drawingNumber) {
-      if (!drawingNumber) return;
+      window.currentDrawingNumber = drawingNumber;
 
-      currentDrawingNumber = drawingNumber;
-
-      // Initialize detail data if not exists
       if (!detailData[drawingNumber]) {
-        detailData[drawingNumber] = {
-          material: Array(10).fill(null).map(() => ({ id: generateId(), drawingNumber: '', temper: '', diameter: '', thickness: '', length: '', weight: '', unitPriceKg: '', consumptionPrice: '', materialCost: '', processingUnitPrice: '', processingPrice: '', pipingPrice: '', required: '' })),
-          purchase: Array(10).fill(null).map(() => ({ id: generateId(), partName: '', drawingNum: '', required: '', unitPrice: '' })),
-          supplied: Array(10).fill(null).map(() => ({ id: generateId(), partName: '', drawingNum: '', required: '' })),
-          // press removed
-          secondary: Array(10).fill(null).map(() => ({ id: generateId(), process: '', qty: '', seconds: '', unitPrice: '', total: '' })),
-          breakdown: {
-            materialTotal: "",
-            materialMgmt: "",
-            procTotal: "",
-            genSales: "",
-            profit: "",
-            freight: "",
-            materialMgmt14: "",
-            genSales15: "",
-            total: ""
-          }
-        };
+        detailData[drawingNumber] = createEmptyDetailData();
       }
 
       document.getElementById('partsListForm').classList.add('hidden');
       document.getElementById('detailForm').classList.remove('hidden');
       document.getElementById('drawingNumberHeader').textContent = '図面番号: ' + drawingNumber;
 
-      renderDetailTables();
-      // Gọi Excel同期 tự động nếu có dữ liệu
+      renderAllDetailSections();
+
       if (window.gprocFillLogic && localStorage.getItem('gproc_excel_data')) {
         try {
           window.gprocFillLogic(JSON.parse(localStorage.getItem('gproc_excel_data')));
@@ -503,271 +546,514 @@
       }
     }
 
+    function createEmptyDetailData() {
+      return {
+        // Section 2: 材料費（樹脂）
+        materialResin: {
+          detailNo: '', conversionRate: '1', sourceCurrency: 'JPY', targetCurrency: 'JPY',
+          weightUnit: 'KG', productWeight: '', runnerWeight: '', yieldRate: '',
+          recycledWeight: '', recoveredWeight: '', recoveredPrice: '', productionLot: '',
+          wasteWeight: '', calcPattern: '', displayPattern: '', remarks: ''
+        },
+        // Section 3: 材料費（樹脂）明細 - multiple rows
+        materialDetail: [createEmptyMaterialDetail()],
+        // Section 4: 加工費（パターン３）- multiple rows
+        processing3: [createEmptyProcessing3()],
+        // Section 5: 加工費（パターン２）- multiple rows
+        processing2: [createEmptyProcessing2()],
+        // Section 6: 部品費 - multiple rows
+        partsDetail: [createEmptyPartsDetail()],
+        // Section 7: 梱包費 - multiple rows
+        packaging: [createEmptyPackaging()],
+        // Section 8: 輸送費
+        transport: {
+          shippingOrigin: '', deliveryDest: '', distance: '', boxHeight: '', boxWidth: '', boxDepth: '',
+          weight: '', packageForm: '', transportCategory: '', transportMethod: '', logisticsPrice: '',
+          boxQuantity: '', transportQty: '', handlingFee: '', otherFee: '', weightUnit: 'KG', lengthUnit: 'MM', remarks: ''
+        },
+        // Section 9: その他費
+        otherCost: { otherCost: '', item: '', remarks: '' },
+        // Section 10: 金型費
+        moldCost: {
+          moldName: '', storageLocation: '', procurementType: '', paymentMethod: '',
+          investmentAmount: '', depreciationCount: '', supplier: '', remarks: ''
+        },
+        // Section 11: 管理費
+        management: { expenseCode: '', ratio: '' },
+        // Section 12: 利益
+        profit: { expenseCode: '', ratio: '' }
+      };
+    }
+
+    function createEmptyMaterialDetail() {
+      return {
+        id: generateId(), procurementType: '', materialCode: '', deliveryForm: '', supplier: '',
+        manufacturer: '', color: '', grade: '', deliveryLot: '', blendingRatio: '',
+        smallLotEx: '', materialPrice: '', detailType: '', specification: ''
+      };
+    }
+
+    function createEmptyProcessing3() {
+      return {
+        id: generateId(), processName: '', processId: '', equipment: '', conversionRate: '1',
+        machineRate: '', machineCT: '', yieldRate: '', changeoverTime: '', outputQty: '',
+        calcPattern: '3', remarks: '', itemName1: '', itemName2: '', itemName3: '',
+        itemName4: '', itemName5: '', itemName6: '', value1: '', value2: '', value3: '',
+        value4: '', value5: '', value6: '', lotCount: ''
+      };
+    }
+
+    function createEmptyProcessing2() {
+      return {
+        id: generateId(), processName: '', processId: '', conversionRate: '1',
+        manRate: '', manCT: '', yieldRate: '', changeoverTime: '', outputQty: '',
+        personnel: '', calcPattern: '2', remarks: '', lotCount: ''
+      };
+    }
+
+    function createEmptyPartsDetail() {
+      return {
+        id: generateId(), partName: '', modelNumber: '', processClass: '', procurementType: '',
+        originCountry: '', supplier: '', manufacturer: '', remarks: '', quantity: '',
+        unitPrice: '', daikinDrawingNo: '', vendorDrawingNo: ''
+      };
+    }
+
+    function createEmptyPackaging() {
+      return {
+        id: generateId(), detailType: '', quantity: '', unit: '', unitPrice: '',
+        rotationCount: '', supplier: '', piecesPerBox: '', materialName: '', specification: '', remarks: ''
+      };
+    }
+
     function goBack() {
       document.getElementById('detailForm').classList.add('hidden');
       document.getElementById('partsListForm').classList.remove('hidden');
-      currentDrawingNumber = null;
+      window.currentDrawingNumber = null;
     }
 
-    function renderDetailTables() {
-      renderBreakdown(); // Parse Logic ensures this data exists, this renders it
-      renderMaterialTable();
-      renderPurchaseTable();
-      renderSuppliedTable();
-      renderSecondaryTable();
+    function renderAllDetailSections() {
+      renderMaterialResin();
+      renderMaterialDetail();
+      renderProcessing3();
+      renderProcessing2();
+      renderPartsDetail();
+      renderPackaging();
+      renderTransport();
+      renderOtherCost();
+      renderMoldCost();
+      renderManagement();
+      renderProfit();
     }
 
-    // Breakdown Table Renderer
-    function renderBreakdown() {
-      const bd = detailData[currentDrawingNumber].breakdown || {};
-      const fields = ['materialTotal', 'materialMgmt', 'procTotal', 'genSales', 'profit', 'freight', 'materialMgmt14', 'genSales15', 'total'];
-      fields.forEach(f => {
-        const el = document.getElementById('breakdown_' + f);
-        if (el) el.value = bd[f] || "";
-        // Add onchange listener to update data model
-        if (el) {
-          el.onchange = function () {
-            if (!detailData[currentDrawingNumber].breakdown) detailData[currentDrawingNumber].breakdown = {};
-            detailData[currentDrawingNumber].breakdown[f] = this.value;
-          };
-        }
-      });
+    // ========== Section 2: 材料費（樹脂） ==========
+    function renderMaterialResin() {
+      const data = detailData[currentDrawingNumber].materialResin;
+      const fields = [
+        { key: 'detailNo', label: '明細番号' },
+        { key: 'conversionRate', label: '換算レート' },
+        { key: 'sourceCurrency', label: '換算元通貨' },
+        { key: 'targetCurrency', label: '換算先通貨' },
+        { key: 'weightUnit', label: '重量単位' },
+        { key: 'productWeight', label: '製品重量' },
+        { key: 'runnerWeight', label: 'ランナー重量' },
+        { key: 'yieldRate', label: '歩留り(%)' },
+        { key: 'recycledWeight', label: '再生材重量' },
+        { key: 'recoveredWeight', label: '回収材重量' },
+        { key: 'recoveredPrice', label: '回収材単価' },
+        { key: 'productionLot', label: '生産ロット数' },
+        { key: 'wasteWeight', label: '廃却総重量' },
+        { key: 'calcPattern', label: '計算パターン' },
+        { key: 'displayPattern', label: '表示パターン' },
+        { key: 'remarks', label: '備考' }
+      ];
+      document.getElementById('materialResinForm').innerHTML = fields.map(f => `
+        <div class="form-group">
+          <label>${f.label}</label>
+          <input type="text" value="${data[f.key] || ''}" onchange="updateMaterialResin('${f.key}', this.value)">
+        </div>
+      `).join('');
     }
 
-    // Material Table (Unchanged logic, just keeping placeholder)
-    function renderMaterialTable() {
-      const tbody = document.getElementById('materialTableBody');
-      tbody.innerHTML = '';
-      const data = detailData[currentDrawingNumber].material;
+    function updateMaterialResin(field, value) {
+      detailData[currentDrawingNumber].materialResin[field] = value;
+    }
+
+    // ========== Section 3: 材料費（樹脂）明細 ==========
+    function renderMaterialDetail() {
+      const data = detailData[currentDrawingNumber].materialDetail;
+      const container = document.getElementById('materialDetailBody');
+      container.innerHTML = '';
+
       data.forEach((item, index) => {
-        const hasData = item.drawingNumber || item.temper || item.diameter || item.thickness || item.length ||
-          item.weight || item.unitPriceKg || item.consumptionPrice || item.materialCost ||
-          item.processingUnitPrice || item.processingPrice || item.pipingPrice || item.required;
-        const dataCount = data.filter(d => d.drawingNumber || d.temper || d.diameter || d.thickness || d.length || d.weight || d.unitPriceKg || d.consumptionPrice || d.materialCost || d.processingUnitPrice || d.processingPrice || d.pipingPrice || d.required).length;
-        if (!hasData && index >= Math.max(1, dataCount)) return;
-        const group = document.createElement('div');
-        group.className = 'material-form-group';
-        group.style = 'border:1px solid #eee; border-radius:8px; margin-bottom:18px; padding:18px 16px; background:#fafbfc; box-shadow:0 2px 8px rgba(102,126,234,0.04);';
-        group.innerHTML = `
-          <div style="font-weight:600; color:#c0392b; margin-bottom:8px;">材料費 #${index + 1}</div>
-          <div style="display:flex; gap:24px; flex-wrap:wrap; margin-bottom:8px;">
-            <div style="min-width:180px;">図面番号: <input type="text" value="${item.drawingNumber}" onchange="updateMaterial(${index}, 'drawingNumber', this.value)"></div>
-            <div style="min-width:120px;">調質: <input type="text" value="${item.temper}" onchange="updateMaterial(${index}, 'temper', this.value)"></div>
+        const div = document.createElement('div');
+        div.className = 'detail-row';
+        div.innerHTML = `
+          <div class="detail-row-header" style="color:#d35400;">材料明細 #${index + 1}
+            <button class="action-btn delete-btn" onclick="deleteMaterialDetail(${index})" style="float:right;">削除</button>
           </div>
-          <div style="font-weight:500; margin-bottom:6px;">サイズ</div>
-          <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:8px;">
-            <div>φ: <input type="number" value="${item.diameter}" onchange="updateMaterial(${index}, 'diameter', this.value)" style="width:70px;"></div>
-            <div>t: <input type="number" value="${item.thickness}" onchange="updateMaterial(${index}, 'thickness', this.value)" style="width:70px;"></div>
-            <div>l: <input type="number" value="${item.length}" onchange="updateMaterial(${index}, 'length', this.value)" style="width:70px;"></div>
-          </div>
-          <div style="display:flex; gap:24px; flex-wrap:wrap; margin-bottom:8px;">
-            <div>重量(g): <input type="number" value="${item.weight}" onchange="updateMaterial(${index}, 'weight', this.value)" style="width:100px;"></div>
-            <div>単価/Kg: <input type="number" value="${item.unitPriceKg}" onchange="updateMaterial(${index}, 'unitPriceKg', this.value)" style="width:100px;"></div>
-            <div>消費材料費: <input type="number" value="${item.consumptionPrice}" onchange="updateMaterial(${index}, 'consumptionPrice', this.value)" style="width:100px;"></div>
-          </div>
-          <div style="display:flex; gap:24px; flex-wrap:wrap; margin-bottom:8px;">
-            <div>材料費: <input type="number" value="${item.materialCost}" onchange="updateMaterial(${index}, 'materialCost', this.value)" style="width:100px;"></div>
-            <div>加工単価: <input type="number" value="${item.processingUnitPrice}" onchange="updateMaterial(${index}, 'processingUnitPrice', this.value)" style="width:100px;"></div>
-            <div>加工価格: <input type="number" value="${item.processingPrice}" onchange="updateMaterial(${index}, 'processingPrice', this.value)" style="width:100px;"></div>
-            <div>配管価格: <input type="number" value="${item.pipingPrice}" onchange="updateMaterial(${index}, 'pipingPrice', this.value)" style="width:100px;"></div>
-            <div>所要数: <input type="number" value="${item.required}" onchange="updateMaterial(${index}, 'required', this.value)" style="width:100px;"></div>
-          </div>
-          <div style="margin-top:8px;">
-            <button class="action-btn delete-btn" onclick="deleteMaterial(${index})">削除</button>
+          <div class="form-grid">
+            <div class="form-group"><label>調達区分</label><input type="text" value="${item.procurementType || ''}" onchange="updateMaterialDetail(${index}, 'procurementType', this.value)"></div>
+            <div class="form-group"><label>材料コード</label><input type="text" value="${item.materialCode || ''}" onchange="updateMaterialDetail(${index}, 'materialCode', this.value)"></div>
+            <div class="form-group"><label>納入荷姿</label><input type="text" value="${item.deliveryForm || ''}" onchange="updateMaterialDetail(${index}, 'deliveryForm', this.value)"></div>
+            <div class="form-group"><label>購入元</label><input type="text" value="${item.supplier || ''}" onchange="updateMaterialDetail(${index}, 'supplier', this.value)"></div>
+            <div class="form-group"><label>メーカー</label><input type="text" value="${item.manufacturer || ''}" onchange="updateMaterialDetail(${index}, 'manufacturer', this.value)"></div>
+            <div class="form-group"><label>色</label><input type="text" value="${item.color || ''}" onchange="updateMaterialDetail(${index}, 'color', this.value)"></div>
+            <div class="form-group"><label>グレード</label><input type="text" value="${item.grade || ''}" onchange="updateMaterialDetail(${index}, 'grade', this.value)"></div>
+            <div class="form-group"><label>デリバリーロット(/回)</label><input type="text" value="${item.deliveryLot || ''}" onchange="updateMaterialDetail(${index}, 'deliveryLot', this.value)"></div>
+            <div class="form-group"><label>配合率(%)</label><input type="text" value="${item.blendingRatio || ''}" onchange="updateMaterialDetail(${index}, 'blendingRatio', this.value)"></div>
+            <div class="form-group"><label>小ロットEX</label><input type="text" value="${item.smallLotEx || ''}" onchange="updateMaterialDetail(${index}, 'smallLotEx', this.value)"></div>
+            <div class="form-group"><label>材料価格</label><input type="text" value="${item.materialPrice || ''}" onchange="updateMaterialDetail(${index}, 'materialPrice', this.value)"></div>
+            <div class="form-group"><label>明細区分</label><input type="text" value="${item.detailType || ''}" onchange="updateMaterialDetail(${index}, 'detailType', this.value)"></div>
+            <div class="form-group"><label>仕様</label><input type="text" value="${item.specification || ''}" onchange="updateMaterialDetail(${index}, 'specification', this.value)"></div>
           </div>
         `;
-        tbody.appendChild(group);
+        container.appendChild(div);
       });
     }
 
-    function updateMaterial(index, field, value) {
-      detailData[currentDrawingNumber].material[index][field] = value;
-      renderMaterialTable();
+    function updateMaterialDetail(index, field, value) {
+      detailData[currentDrawingNumber].materialDetail[index][field] = value;
     }
 
-    function addMaterialRow() {
-      detailData[currentDrawingNumber].material.push({ id: generateId(), drawingNumber: '', temper: '', diameter: '', thickness: '', length: '', weight: '', unitPriceKg: '', consumptionPrice: '', materialCost: '', processingUnitPrice: '', processingPrice: '', pipingPrice: '', required: '' });
-      renderMaterialTable();
+    function addMaterialDetailRow() {
+      detailData[currentDrawingNumber].materialDetail.push(createEmptyMaterialDetail());
+      renderMaterialDetail();
     }
 
-    function deleteMaterial(index) {
-      detailData[currentDrawingNumber].material.splice(index, 1);
-      renderMaterialTable();
+    function deleteMaterialDetail(index) {
+      detailData[currentDrawingNumber].materialDetail.splice(index, 1);
+      if (detailData[currentDrawingNumber].materialDetail.length === 0) {
+        detailData[currentDrawingNumber].materialDetail.push(createEmptyMaterialDetail());
+      }
+      renderMaterialDetail();
     }
 
-    // Purchase Table (Simplified to single entry per row)
-    function renderPurchaseTable() {
-      const tbody = document.getElementById('purchaseTableBody');
-      tbody.innerHTML = '';
-      const data = detailData[currentDrawingNumber].purchase;
-      data.forEach(function (item, index) {
-        var hasData = item.partName || item.drawingNum || item.required || item.unitPrice;
-        var dataCount = data.filter(function (d) { return d.partName || d.drawingNum || d.required || d.unitPrice; }).length;
-        if (!hasData && index >= Math.max(1, dataCount)) return;
-        var group = document.createElement('div');
-        group.className = 'purchase-form-group';
-        group.style = 'border:1px solid #eee; border-radius:8px; margin-bottom:18px; padding:18px 16px; background:#fafbfc; box-shadow:0 2px 8px rgba(102,126,234,0.04);';
-        group.innerHTML = `
-          <div style="font-weight:600; color:#229954; margin-bottom:8px;">購入部品費 #${index + 1}</div>
-          <div style="display:flex; gap:24px; flex-wrap:wrap; margin-bottom:8px;">
-            <div>部品名及び仕様: <input type="text" value="${item.partName || ''}" onchange="updatePurchase(${index}, 'partName', this.value)"></div>
-            <div>図面番号: <input type="text" value="${item.drawingNum || ''}" onchange="updatePurchase(${index}, 'drawingNum', this.value)"></div>
-            <div>所要数: <input type="number" value="${item.required || ''}" onchange="updatePurchase(${index}, 'required', this.value)"></div>
-            <div>単価: <input type="number" value="${item.unitPrice || ''}" onchange="updatePurchase(${index}, 'unitPrice', this.value)"></div>
+    // ========== Section 4: 加工費（パターン３） ==========
+    function renderProcessing3() {
+      const data = detailData[currentDrawingNumber].processing3;
+      const container = document.getElementById('processing3Body');
+      container.innerHTML = '';
+
+      data.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'detail-row';
+        div.innerHTML = `
+          <div class="detail-row-header" style="color:#8e44ad;">加工費（パターン３）#${index + 1}
+            <button class="action-btn delete-btn" onclick="deleteProcessing3(${index})" style="float:right;">削除</button>
           </div>
-          <div style="margin-top:8px;">
-            ${hasData ? `<button class="action-btn delete-btn" onclick="deletePurchase(${index})">削除</button>` : ''}
+          <div class="form-grid">
+            <div class="form-group"><label>加工工程</label><input type="text" value="${item.processName || ''}" onchange="updateProcessing3(${index}, 'processName', this.value)"></div>
+            <div class="form-group"><label>加工工程識別名</label><input type="text" value="${item.processId || ''}" onchange="updateProcessing3(${index}, 'processId', this.value)"></div>
+            <div class="form-group"><label>使用設備</label><input type="text" value="${item.equipment || ''}" onchange="updateProcessing3(${index}, 'equipment', this.value)"></div>
+            <div class="form-group"><label>換算レート</label><input type="text" value="${item.conversionRate || ''}" onchange="updateProcessing3(${index}, 'conversionRate', this.value)"></div>
+            <div class="form-group"><label>マシンレート(@/Hr)</label><input type="text" value="${item.machineRate || ''}" onchange="updateProcessing3(${index}, 'machineRate', this.value)"></div>
+            <div class="form-group"><label>マシンコストCT(s)</label><input type="text" value="${item.machineCT || ''}" onchange="updateProcessing3(${index}, 'machineCT', this.value)"></div>
+            <div class="form-group"><label>歩留り(%)</label><input type="text" value="${item.yieldRate || ''}" onchange="updateProcessing3(${index}, 'yieldRate', this.value)"></div>
+            <div class="form-group"><label>段替時間(s)</label><input type="text" value="${item.changeoverTime || ''}" onchange="updateProcessing3(${index}, 'changeoverTime', this.value)"></div>
+            <div class="form-group"><label>取り数</label><input type="text" value="${item.outputQty || ''}" onchange="updateProcessing3(${index}, 'outputQty', this.value)"></div>
+            <div class="form-group"><label>計算パターン</label><input type="text" value="${item.calcPattern || ''}" onchange="updateProcessing3(${index}, 'calcPattern', this.value)"></div>
+            <div class="form-group"><label>備考</label><input type="text" value="${item.remarks || ''}" onchange="updateProcessing3(${index}, 'remarks', this.value)"></div>
+          </div>
+          <div style="margin-top:10px; font-weight:500; color:#666;">項目名・値</div>
+          <div class="form-grid" style="margin-top:8px;">
+            <div class="form-group"><label>項目名１</label><input type="text" value="${item.itemName1 || ''}" onchange="updateProcessing3(${index}, 'itemName1', this.value)"></div>
+            <div class="form-group"><label>値１</label><input type="text" value="${item.value1 || ''}" onchange="updateProcessing3(${index}, 'value1', this.value)"></div>
+            <div class="form-group"><label>項目名２</label><input type="text" value="${item.itemName2 || ''}" onchange="updateProcessing3(${index}, 'itemName2', this.value)"></div>
+            <div class="form-group"><label>値２</label><input type="text" value="${item.value2 || ''}" onchange="updateProcessing3(${index}, 'value2', this.value)"></div>
+            <div class="form-group"><label>項目名３</label><input type="text" value="${item.itemName3 || ''}" onchange="updateProcessing3(${index}, 'itemName3', this.value)"></div>
+            <div class="form-group"><label>値３</label><input type="text" value="${item.value3 || ''}" onchange="updateProcessing3(${index}, 'value3', this.value)"></div>
+            <div class="form-group"><label>項目名４</label><input type="text" value="${item.itemName4 || ''}" onchange="updateProcessing3(${index}, 'itemName4', this.value)"></div>
+            <div class="form-group"><label>値４</label><input type="text" value="${item.value4 || ''}" onchange="updateProcessing3(${index}, 'value4', this.value)"></div>
+            <div class="form-group"><label>項目名５</label><input type="text" value="${item.itemName5 || ''}" onchange="updateProcessing3(${index}, 'itemName5', this.value)"></div>
+            <div class="form-group"><label>値５</label><input type="text" value="${item.value5 || ''}" onchange="updateProcessing3(${index}, 'value5', this.value)"></div>
+            <div class="form-group"><label>項目名６</label><input type="text" value="${item.itemName6 || ''}" onchange="updateProcessing3(${index}, 'itemName6', this.value)"></div>
+            <div class="form-group"><label>値６</label><input type="text" value="${item.value6 || ''}" onchange="updateProcessing3(${index}, 'value6', this.value)"></div>
+            <div class="form-group"><label>ロット数</label><input type="text" value="${item.lotCount || ''}" onchange="updateProcessing3(${index}, 'lotCount', this.value)"></div>
           </div>
         `;
-        tbody.appendChild(group);
+        container.appendChild(div);
       });
     }
 
-    function updatePurchase(index, field, value) {
-      detailData[currentDrawingNumber].purchase[index][field] = value;
-      renderPurchaseTable();
+    function updateProcessing3(index, field, value) {
+      detailData[currentDrawingNumber].processing3[index][field] = value;
     }
 
-    function addPurchaseRow() {
-      detailData[currentDrawingNumber].purchase.push({ id: generateId(), partName: '', drawingNum: '', required: '', unitPrice: '' });
-      renderPurchaseTable();
+    function addProcessing3Row() {
+      detailData[currentDrawingNumber].processing3.push(createEmptyProcessing3());
+      renderProcessing3();
     }
 
-    function deletePurchase(index) {
-      detailData[currentDrawingNumber].purchase.splice(index, 1);
-      renderPurchaseTable();
+    function deleteProcessing3(index) {
+      detailData[currentDrawingNumber].processing3.splice(index, 1);
+      if (detailData[currentDrawingNumber].processing3.length === 0) {
+        detailData[currentDrawingNumber].processing3.push(createEmptyProcessing3());
+      }
+      renderProcessing3();
     }
 
-    // Supplied Parts Table (New)
-    function renderSuppliedTable() {
-      const tbody = document.getElementById('suppliedTableBody');
-      tbody.innerHTML = '';
-      const data = detailData[currentDrawingNumber].supplied;
-      data.forEach(function (item, index) {
-        var hasData = item.partName || item.drawingNum || item.required;
-        var dataCount = data.filter(function (d) { return d.partName || d.drawingNum || d.required; }).length;
-        if (!hasData && index >= Math.max(1, dataCount)) return;
-        var group = document.createElement('div');
-        group.className = 'supplied-form-group';
-        group.style = 'border:1px solid #eee; border-radius:8px; margin-bottom:18px; padding:18px 16px; background:#fff8e1; box-shadow:0 2px 8px rgba(241, 196, 15, 0.1);';
-        group.innerHTML = `
-          <div style="font-weight:600; color:#d4ac0d; margin-bottom:8px;">支給部品 #${index + 1}</div>
-          <div style="display:flex; gap:24px; flex-wrap:wrap; margin-bottom:8px;">
-            <div>部品名及び仕様: <input type="text" value="${item.partName || ''}" onchange="updateSupplied(${index}, 'partName', this.value)"></div>
-            <div>図面番号: <input type="text" value="${item.drawingNum || ''}" onchange="updateSupplied(${index}, 'drawingNum', this.value)"></div>
-            <div>所要数: <input type="number" value="${item.required || ''}" onchange="updateSupplied(${index}, 'required', this.value)"></div>
+    // ========== Section 5: 加工費（パターン２） ==========
+    function renderProcessing2() {
+      const data = detailData[currentDrawingNumber].processing2;
+      const container = document.getElementById('processing2Body');
+      container.innerHTML = '';
+
+      data.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'detail-row';
+        div.innerHTML = `
+          <div class="detail-row-header" style="color:#2980b9;">加工費（パターン２）#${index + 1}
+            <button class="action-btn delete-btn" onclick="deleteProcessing2(${index})" style="float:right;">削除</button>
           </div>
-          <div style="margin-top:8px;">
-            ${hasData ? `<button class="action-btn delete-btn" onclick="deleteSupplied(${index})">削除</button>` : ''}
+          <div class="form-grid">
+            <div class="form-group"><label>加工工程</label><input type="text" value="${item.processName || ''}" onchange="updateProcessing2(${index}, 'processName', this.value)"></div>
+            <div class="form-group"><label>加工工程識別名</label><input type="text" value="${item.processId || ''}" onchange="updateProcessing2(${index}, 'processId', this.value)"></div>
+            <div class="form-group"><label>換算レート</label><input type="text" value="${item.conversionRate || ''}" onchange="updateProcessing2(${index}, 'conversionRate', this.value)"></div>
+            <div class="form-group"><label>マンレート(@/Hr)</label><input type="text" value="${item.manRate || ''}" onchange="updateProcessing2(${index}, 'manRate', this.value)"></div>
+            <div class="form-group"><label>マンコストCT(s)</label><input type="text" value="${item.manCT || ''}" onchange="updateProcessing2(${index}, 'manCT', this.value)"></div>
+            <div class="form-group"><label>歩留り(%)</label><input type="text" value="${item.yieldRate || ''}" onchange="updateProcessing2(${index}, 'yieldRate', this.value)"></div>
+            <div class="form-group"><label>段替時間(s)</label><input type="text" value="${item.changeoverTime || ''}" onchange="updateProcessing2(${index}, 'changeoverTime', this.value)"></div>
+            <div class="form-group"><label>取り数</label><input type="text" value="${item.outputQty || ''}" onchange="updateProcessing2(${index}, 'outputQty', this.value)"></div>
+            <div class="form-group"><label>人数</label><input type="text" value="${item.personnel || ''}" onchange="updateProcessing2(${index}, 'personnel', this.value)"></div>
+            <div class="form-group"><label>計算パターン</label><input type="text" value="${item.calcPattern || ''}" onchange="updateProcessing2(${index}, 'calcPattern', this.value)"></div>
+            <div class="form-group"><label>備考</label><input type="text" value="${item.remarks || ''}" onchange="updateProcessing2(${index}, 'remarks', this.value)"></div>
+            <div class="form-group"><label>ロット数</label><input type="text" value="${item.lotCount || ''}" onchange="updateProcessing2(${index}, 'lotCount', this.value)"></div>
           </div>
         `;
-        tbody.appendChild(group);
+        container.appendChild(div);
       });
     }
 
-    function updateSupplied(index, field, value) {
-      detailData[currentDrawingNumber].supplied[index][field] = value;
-      renderSuppliedTable();
+    function updateProcessing2(index, field, value) {
+      detailData[currentDrawingNumber].processing2[index][field] = value;
     }
 
-    function addSuppliedRow() {
-      detailData[currentDrawingNumber].supplied.push({ id: generateId(), partName: '', drawingNum: '', required: '' });
-      renderSuppliedTable();
+    function addProcessing2Row() {
+      detailData[currentDrawingNumber].processing2.push(createEmptyProcessing2());
+      renderProcessing2();
     }
 
-    function deleteSupplied(index) {
-      detailData[currentDrawingNumber].supplied.splice(index, 1);
-      renderSuppliedTable();
+    function deleteProcessing2(index) {
+      detailData[currentDrawingNumber].processing2.splice(index, 1);
+      if (detailData[currentDrawingNumber].processing2.length === 0) {
+        detailData[currentDrawingNumber].processing2.push(createEmptyProcessing2());
+      }
+      renderProcessing2();
     }
 
-    // Press Table (Unchanged)
-    function renderPressTable() {
-      const tbody = document.getElementById('pressTableBody');
-      tbody.innerHTML = '';
-      const data = detailData[currentDrawingNumber].press;
-      data.forEach(function (item, index) {
-        var hasData = item.partName || item.process || item.equipment || item.cycle || item.charge || item.cost || item.required;
-        var dataCount = data.filter(function (d) { return d.partName || d.process || d.equipment || d.cycle || d.charge || d.cost || d.required; }).length;
-        if (!hasData && index >= Math.max(1, dataCount)) return;
-        var group = document.createElement('div');
-        group.className = 'press-form-group';
-        group.style = 'border:1px solid #eee; border-radius:8px; margin-bottom:18px; padding:18px 16px; background:#fafbfc; box-shadow:0 2px 8px rgba(102,126,234,0.04);';
-        group.innerHTML = `
-          <div style="font-weight:600; color:#8e44ad; margin-bottom:8px;">プレス・配管加工費 #${index + 1}</div>
-          <div style="display:flex; gap:24px; flex-wrap:wrap; margin-bottom:8px;">
-            <div>部品名及び仕様: <input type="text" value="${item.partName || ''}" onchange="updatePress(${index}, 'partName', this.value)"></div>
-            <div>図面番号: <input type="text" value="${item.process || ''}" onchange="updatePress(${index}, 'process', this.value)"></div>
-            <div>所要数: <input type="text" value="${item.equipment || ''}" onchange="updatePress(${index}, 'equipment', this.value)"></div>
-            <div>部品名及び仕様: <input type="number" value="${item.cycle || ''}" onchange="updatePress(${index}, 'cycle', this.value)"></div>
-            <div>図面番号: <input type="number" value="${item.charge || ''}" onchange="updatePress(${index}, 'charge', this.value)"></div>
-            <div>加工費: <input type="number" value="${item.cost || ''}" onchange="updatePress(${index}, 'cost', this.value)"></div>
-            <div>所要数: <input type="number" value="${item.required || ''}" onchange="updatePress(${index}, 'required', this.value)"></div>
+    // ========== Section 6: 部品費 ==========
+    function renderPartsDetail() {
+      const data = detailData[currentDrawingNumber].partsDetail;
+      const container = document.getElementById('partsDetailBody');
+      container.innerHTML = '';
+
+      data.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'detail-row';
+        div.innerHTML = `
+          <div class="detail-row-header" style="color:#229954;">部品費 #${index + 1}
+            <button class="action-btn delete-btn" onclick="deletePartsDetail(${index})" style="float:right;">削除</button>
           </div>
-          <div style="margin-top:8px;">
-            ${hasData ? `<button class="action-btn delete-btn" onclick="deletePress(${index})">削除</button>` : ''}
+          <div class="form-grid">
+            <div class="form-group"><label>品名</label><input type="text" value="${item.partName || ''}" onchange="updatePartsDetail(${index}, 'partName', this.value)"></div>
+            <div class="form-group"><label>型式番号</label><input type="text" value="${item.modelNumber || ''}" onchange="updatePartsDetail(${index}, 'modelNumber', this.value)"></div>
+            <div class="form-group"><label>工程分類</label><input type="text" value="${item.processClass || ''}" onchange="updatePartsDetail(${index}, 'processClass', this.value)"></div>
+            <div class="form-group"><label>調達区分</label><input type="text" value="${item.procurementType || ''}" onchange="updatePartsDetail(${index}, 'procurementType', this.value)"></div>
+            <div class="form-group"><label>原産国</label><input type="text" value="${item.originCountry || ''}" onchange="updatePartsDetail(${index}, 'originCountry', this.value)"></div>
+            <div class="form-group"><label>購入元</label><input type="text" value="${item.supplier || ''}" onchange="updatePartsDetail(${index}, 'supplier', this.value)"></div>
+            <div class="form-group"><label>メーカー</label><input type="text" value="${item.manufacturer || ''}" onchange="updatePartsDetail(${index}, 'manufacturer', this.value)"></div>
+            <div class="form-group"><label>備考</label><input type="text" value="${item.remarks || ''}" onchange="updatePartsDetail(${index}, 'remarks', this.value)"></div>
+            <div class="form-group"><label>所要量</label><input type="text" value="${item.quantity || ''}" onchange="updatePartsDetail(${index}, 'quantity', this.value)"></div>
+            <div class="form-group"><label>単価</label><input type="text" value="${item.unitPrice || ''}" onchange="updatePartsDetail(${index}, 'unitPrice', this.value)"></div>
+            <div class="form-group"><label>ダイキン図面番号</label><input type="text" value="${item.daikinDrawingNo || ''}" onchange="updatePartsDetail(${index}, 'daikinDrawingNo', this.value)"></div>
+            <div class="form-group"><label>取引先図面番号</label><input type="text" value="${item.vendorDrawingNo || ''}" onchange="updatePartsDetail(${index}, 'vendorDrawingNo', this.value)"></div>
           </div>
         `;
-        tbody.appendChild(group);
+        container.appendChild(div);
       });
     }
 
-    function updatePress(index, field, value) {
-      detailData[currentDrawingNumber].press[index][field] = value;
-      renderPressTable();
+    function updatePartsDetail(index, field, value) {
+      detailData[currentDrawingNumber].partsDetail[index][field] = value;
     }
 
-    function addPressRow() {
-      detailData[currentDrawingNumber].press.push({ id: generateId(), partName: '', process: '', equipment: '', cycle: '', charge: '', cost: '', required: '' });
-      renderPressTable();
+    function addPartsDetailRow() {
+      detailData[currentDrawingNumber].partsDetail.push(createEmptyPartsDetail());
+      renderPartsDetail();
     }
 
-    function deletePress(index) {
-      detailData[currentDrawingNumber].press.splice(index, 1);
-      renderPressTable();
+    function deletePartsDetail(index) {
+      detailData[currentDrawingNumber].partsDetail.splice(index, 1);
+      if (detailData[currentDrawingNumber].partsDetail.length === 0) {
+        detailData[currentDrawingNumber].partsDetail.push(createEmptyPartsDetail());
+      }
+      renderPartsDetail();
     }
 
-    // Secondary Table (Simplified: removed packing and remarks)
-    function renderSecondaryTable() {
-      const tbody = document.getElementById('secondaryTableBody');
-      tbody.innerHTML = '';
-      const data = detailData[currentDrawingNumber].secondary;
-      data.forEach(function (item, index) {
-        var hasData = item.process || item.qty || item.seconds || item.unitPrice || item.total;
-        var dataCount = data.filter(function (d) { return d.process || d.qty || d.seconds || d.unitPrice || d.total; }).length;
-        if (!hasData && index >= Math.max(1, dataCount)) return;
-        var group = document.createElement('div');
-        group.className = 'secondary-form-group';
-        group.style = 'border:1px solid #eee; border-radius:8px; margin-bottom:18px; padding:18px 16px; background:#fafbfc; box-shadow:0 2px 8px rgba(102,126,234,0.04);';
-        group.innerHTML = `
-          <div style="font-weight:600; color:#e67e22; margin-bottom:8px;">二次加工費 #${index + 1}</div>
-          <div style="display:flex; gap:24px; flex-wrap:wrap; margin-bottom:8px;">
-            <div>加工工程: <input type="text" value="${item.process || ''}" onchange="updateSecondary(${index}, 'process', this.value)"></div>
-            <div>個数: <input type="number" value="${item.qty || ''}" onchange="updateSecondary(${index}, 'qty', this.value)"></div>
-            <div>（秒）: <input type="number" value="${item.seconds || ''}" onchange="updateSecondary(${index}, 'seconds', this.value)"></div>
-            <div>単価: <input type="number" value="${item.unitPrice || ''}" onchange="updateSecondary(${index}, 'unitPrice', this.value)"></div>
-            <div>金額: <input type="number" value="${item.total || ''}" onchange="updateSecondary(${index}, 'total', this.value)"></div>
+    // ========== Section 7: 梱包費 ==========
+    function renderPackaging() {
+      const data = detailData[currentDrawingNumber].packaging;
+      const container = document.getElementById('packagingBody');
+      container.innerHTML = '';
+
+      data.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'detail-row';
+        div.innerHTML = `
+          <div class="detail-row-header" style="color:#16a085;">梱包費 #${index + 1}
+            <button class="action-btn delete-btn" onclick="deletePackaging(${index})" style="float:right;">削除</button>
           </div>
-          <div style="margin-top:8px;">
-            ${hasData ? `<button class="action-btn delete-btn" onclick="deleteSecondary(${index})">削除</button>` : ''}
+          <div class="form-grid">
+            <div class="form-group"><label>明細区分</label><input type="text" value="${item.detailType || ''}" onchange="updatePackaging(${index}, 'detailType', this.value)"></div>
+            <div class="form-group"><label>所要量</label><input type="text" value="${item.quantity || ''}" onchange="updatePackaging(${index}, 'quantity', this.value)"></div>
+            <div class="form-group"><label>単位</label><input type="text" value="${item.unit || ''}" onchange="updatePackaging(${index}, 'unit', this.value)"></div>
+            <div class="form-group"><label>単価</label><input type="text" value="${item.unitPrice || ''}" onchange="updatePackaging(${index}, 'unitPrice', this.value)"></div>
+            <div class="form-group"><label>回転数</label><input type="text" value="${item.rotationCount || ''}" onchange="updatePackaging(${index}, 'rotationCount', this.value)"></div>
+            <div class="form-group"><label>購入元</label><input type="text" value="${item.supplier || ''}" onchange="updatePackaging(${index}, 'supplier', this.value)"></div>
+            <div class="form-group"><label>入り数</label><input type="text" value="${item.piecesPerBox || ''}" onchange="updatePackaging(${index}, 'piecesPerBox', this.value)"></div>
+            <div class="form-group"><label>材料名</label><input type="text" value="${item.materialName || ''}" onchange="updatePackaging(${index}, 'materialName', this.value)"></div>
+            <div class="form-group"><label>仕様</label><input type="text" value="${item.specification || ''}" onchange="updatePackaging(${index}, 'specification', this.value)"></div>
+            <div class="form-group"><label>備考</label><input type="text" value="${item.remarks || ''}" onchange="updatePackaging(${index}, 'remarks', this.value)"></div>
           </div>
         `;
-        tbody.appendChild(group);
+        container.appendChild(div);
       });
     }
 
-    function updateSecondary(index, field, value) {
-      detailData[currentDrawingNumber].secondary[index][field] = value;
-      renderSecondaryTable();
+    function updatePackaging(index, field, value) {
+      detailData[currentDrawingNumber].packaging[index][field] = value;
     }
 
-    function addSecondaryRow() {
-      detailData[currentDrawingNumber].secondary.push({ id: generateId(), process: '', qty: '', seconds: '', unitPrice: '', total: '' });
-      renderSecondaryTable();
+    function addPackagingRow() {
+      detailData[currentDrawingNumber].packaging.push(createEmptyPackaging());
+      renderPackaging();
     }
 
-    function deleteSecondary(index) {
-      detailData[currentDrawingNumber].secondary.splice(index, 1);
-      renderSecondaryTable();
+    function deletePackaging(index) {
+      detailData[currentDrawingNumber].packaging.splice(index, 1);
+      if (detailData[currentDrawingNumber].packaging.length === 0) {
+        detailData[currentDrawingNumber].packaging.push(createEmptyPackaging());
+      }
+      renderPackaging();
+    }
+
+    // ========== Section 8: 輸送費 ==========
+    function renderTransport() {
+      const data = detailData[currentDrawingNumber].transport;
+      const fields = [
+        { key: 'shippingOrigin', label: '出荷元' },
+        { key: 'deliveryDest', label: '納入先' },
+        { key: 'distance', label: '輸送距離' },
+        { key: 'boxHeight', label: '箱サイズ（タテ）' },
+        { key: 'boxWidth', label: '箱サイズ（ヨコ）' },
+        { key: 'boxDepth', label: '箱サイズ（タカサ）' },
+        { key: 'weight', label: '重量' },
+        { key: 'packageForm', label: '荷姿' },
+        { key: 'transportCategory', label: '輸送カテゴリー' },
+        { key: 'transportMethod', label: '輸送手段' },
+        { key: 'logisticsPrice', label: '物流単価' },
+        { key: 'boxQuantity', label: '箱入り数' },
+        { key: 'transportQty', label: '輸送数量' },
+        { key: 'handlingFee', label: '荷役費' },
+        { key: 'otherFee', label: 'その他費' },
+        { key: 'weightUnit', label: '重量単位' },
+        { key: 'lengthUnit', label: '長さ単位' },
+        { key: 'remarks', label: '備考' }
+      ];
+      document.getElementById('transportForm').innerHTML = fields.map(f => `
+        <div class="form-group">
+          <label>${f.label}</label>
+          <input type="text" value="${data[f.key] || ''}" onchange="updateTransport('${f.key}', this.value)">
+        </div>
+      `).join('');
+    }
+
+    function updateTransport(field, value) {
+      detailData[currentDrawingNumber].transport[field] = value;
+    }
+
+    // ========== Section 9: その他費 ==========
+    function renderOtherCost() {
+      const data = detailData[currentDrawingNumber].otherCost;
+      const fields = [
+        { key: 'otherCost', label: 'その他費' },
+        { key: 'item', label: '項目' },
+        { key: 'remarks', label: '備考' }
+      ];
+      document.getElementById('otherCostForm').innerHTML = fields.map(f => `
+        <div class="form-group">
+          <label>${f.label}</label>
+          <input type="text" value="${data[f.key] || ''}" onchange="updateOtherCost('${f.key}', this.value)">
+        </div>
+      `).join('');
+    }
+
+    function updateOtherCost(field, value) {
+      detailData[currentDrawingNumber].otherCost[field] = value;
+    }
+
+    // ========== Section 10: 金型費 ==========
+    function renderMoldCost() {
+      const data = detailData[currentDrawingNumber].moldCost;
+      const fields = [
+        { key: 'moldName', label: '金型名称' },
+        { key: 'storageLocation', label: '金型保管場所' },
+        { key: 'procurementType', label: '調達区分' },
+        { key: 'paymentMethod', label: '支払方法' },
+        { key: 'investmentAmount', label: '投資額' },
+        { key: 'depreciationCount', label: '償却数' },
+        { key: 'supplier', label: '購入元' },
+        { key: 'remarks', label: '備考' }
+      ];
+      document.getElementById('moldCostForm').innerHTML = fields.map(f => `
+        <div class="form-group">
+          <label>${f.label}</label>
+          <input type="text" value="${data[f.key] || ''}" onchange="updateMoldCost('${f.key}', this.value)">
+        </div>
+      `).join('');
+    }
+
+    function updateMoldCost(field, value) {
+      detailData[currentDrawingNumber].moldCost[field] = value;
+    }
+
+    // ========== Section 11: 管理費 ==========
+    function renderManagement() {
+      const data = detailData[currentDrawingNumber].management;
+      const fields = [
+        { key: 'expenseCode', label: '費目コード' },
+        { key: 'ratio', label: '比率' }
+      ];
+      document.getElementById('managementForm').innerHTML = fields.map(f => `
+        <div class="form-group">
+          <label>${f.label}</label>
+          <input type="text" value="${data[f.key] || ''}" onchange="updateManagement('${f.key}', this.value)">
+        </div>
+      `).join('');
+    }
+
+    function updateManagement(field, value) {
+      detailData[currentDrawingNumber].management[field] = value;
+    }
+
+    // ========== Section 12: 利益 ==========
+    function renderProfit() {
+      const data = detailData[currentDrawingNumber].profit;
+      const fields = [
+        { key: 'expenseCode', label: '費目コード' },
+        { key: 'ratio', label: '比率' }
+      ];
+      document.getElementById('profitForm').innerHTML = fields.map(f => `
+        <div class="form-group">
+          <label>${f.label}</label>
+          <input type="text" value="${data[f.key] || ''}" onchange="updateProfit('${f.key}', this.value)">
+        </div>
+      `).join('');
+    }
+
+    function updateProfit(field, value) {
+      detailData[currentDrawingNumber].profit[field] = value;
     }
 
     // Initialize on page load
