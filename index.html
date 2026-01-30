@@ -291,6 +291,129 @@
       padding-bottom: 8px;
       border-bottom: 1px solid #eee;
     }
+
+    /* Stepper CSS */
+    .stepper-wrapper {
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .stepper-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #e0e0e0;
+      z-index: 1;
+    }
+
+    .stepper-item {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+    }
+
+    .stepper-item .step-counter {
+      width: 30px;
+      height: 30px;
+      background: white;
+      border: 2px solid #e0e0e0;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      color: #999;
+      margin-bottom: 6px;
+      transition: all 0.3s;
+    }
+
+    .stepper-item.active .step-counter {
+      border-color: #3498db;
+      background: #3498db;
+      color: white;
+    }
+
+    .stepper-item.completed .step-counter {
+      border-color: #27ae60;
+      background: #27ae60;
+      color: white;
+    }
+
+    .stepper-item .step-name {
+      font-size: 11px;
+      color: #999;
+      text-align: center;
+    }
+
+    .stepper-item.active .step-name {
+      color: #3498db;
+      font-weight: bold;
+    }
+
+    .step-content {
+      display: none;
+      animation: fadeIn 0.3s;
+    }
+
+    .step-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .step-navigation {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+    }
+
+    .nav-btn {
+      padding: 10px 25px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .nav-btn.prev {
+      background: #f1f2f6;
+      color: #57606f;
+    }
+
+    .nav-btn.next {
+      background: #3498db;
+      color: white;
+    }
+
+    .nav-btn:hover {
+      opacity: 0.9;
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
   </style>
 </head>
 
@@ -321,120 +444,159 @@
         </tbody>
       </table>
       <button class="add-btn" onclick="addPartRow()">
-        <span>+</span> 追加
+        <!-- <span>+</span> 追加 -->
       </button>
     </div>
 
-    <!-- Second Form: Detail View -->
     <div id="detailForm" class="card hidden">
       <button class="back-btn" onclick="goBack()">
         <span>←</span> 戻る
       </button>
+
+      <!-- Persistent Header -->
       <div id="drawingNumberHeader" class="drawing-number-header"></div>
 
-      <!-- Section 2: 材料費（樹脂） -->
-      <div class="section-table">
-        <div class="section-title material">材料費（樹脂）</div>
-        <div class="section-content">
-          <div class="form-grid" id="materialResinForm">
-            <!-- Rendered by JS -->
+      <!-- Stepper Header -->
+      <div class="stepper-wrapper">
+        <div class="stepper-item active" id="stepperStep1">
+          <div class="step-counter">1</div>
+          <div class="step-name">材料</div>
+        </div>
+        <div class="stepper-item" id="stepperStep2">
+          <div class="step-counter">2</div>
+          <div class="step-name">加工</div>
+        </div>
+        <div class="stepper-item" id="stepperStep3">
+          <div class="step-counter">3</div>
+          <div class="step-name">部品</div>
+        </div>
+        <div class="stepper-item" id="stepperStep4">
+          <div class="step-counter">4</div>
+          <div class="step-name">梱包</div>
+        </div>
+        <div class="stepper-item" id="stepperStep5">
+          <div class="step-counter">5</div>
+          <div class="step-name">輸送</div>
+        </div>
+        <div class="stepper-item" id="stepperStep6">
+          <div class="step-counter">6</div>
+          <div class="step-name">その他</div>
+        </div>
+        <div class="stepper-item" id="stepperStep7">
+          <div class="step-counter">7</div>
+          <div class="step-name">金型</div>
+        </div>
+        <div class="stepper-item" id="stepperStep8">
+          <div class="step-counter">8</div>
+          <div class="step-name">管理</div>
+        </div>
+        <div class="stepper-item" id="stepperStep9">
+          <div class="step-counter">9</div>
+          <div class="step-name">利益</div>
+        </div>
+      </div>
+
+      <!-- Step 1: Material (Section 2 & 3) -->
+      <div id="step1" class="step-content active">
+        <div class="section-table">
+          <div class="section-title material">材料費（樹脂）</div>
+          <div class="section-content">
+            <div class="form-grid" id="materialResinForm"></div>
+          </div>
+        </div>
+        <div class="section-table">
+          <div class="section-title material-detail">材料費（樹脂）明細</div>
+          <div id="materialDetailBody"></div>
+          <!-- <button class="add-btn" onclick="addMaterialDetailRow()"><span>+</span> 追加</button> -->
+        </div>
+      </div>
+
+      <!-- Step 2: Processing (Section 4 & 5) -->
+      <div id="step2" class="step-content">
+        <div class="section-table">
+          <div class="section-title processing3">加工費（パターン３）</div>
+          <div id="processing3Body"></div>
+          <!-- <button class="add-btn" onclick="addProcessing3Row()"><span>+</span> 追加</button> -->
+        </div>
+        <div class="section-table">
+          <div class="section-title processing2">加工費（パターン２）</div>
+          <div id="processing2Body"></div>
+          <!-- <button class="add-btn" onclick="addProcessing2Row()"><span>+</span> 追加</button> -->
+        </div>
+      </div>
+
+      <!-- Step 3: Parts (Section 6) -->
+      <div id="step3" class="step-content">
+        <div class="section-table">
+          <div class="section-title parts">部品費</div>
+          <div id="partsDetailBody"></div>
+          <!-- <button class="add-btn" onclick="addPartsDetailRow()"><span>+</span> 追加</button> -->
+        </div>
+      </div>
+
+      <!-- Step 4: Packaging (Section 7) -->
+      <div id="step4" class="step-content">
+        <div class="section-table">
+          <div class="section-title packaging">梱包費</div>
+          <div id="packagingBody"></div>
+          <!-- <button class="add-btn" onclick="addPackagingRow()"><span>+</span> 追加</button> -->
+        </div>
+      </div>
+
+      <!-- Step 5: Transport (Section 8) -->
+      <div id="step5" class="step-content">
+        <div class="section-table">
+          <div class="section-title transport">輸送費</div>
+          <div class="section-content">
+            <div class="form-grid" id="transportForm"></div>
           </div>
         </div>
       </div>
 
-      <!-- Section 3: 材料費（樹脂）明細 -->
-      <div class="section-table">
-        <div class="section-title material-detail">材料費（樹脂）明細</div>
-        <div id="materialDetailBody"></div>
-        <button class="add-btn" onclick="addMaterialDetailRow()">
-          <span>+</span> 追加
-        </button>
-      </div>
-
-      <!-- Section 4: 加工費（パターン３） -->
-      <div class="section-table">
-        <div class="section-title processing3">加工費（パターン３）</div>
-        <div id="processing3Body"></div>
-        <button class="add-btn" onclick="addProcessing3Row()">
-          <span>+</span> 追加
-        </button>
-      </div>
-
-      <!-- Section 5: 加工費（パターン２） -->
-      <div class="section-table">
-        <div class="section-title processing2">加工費（パターン２）</div>
-        <div id="processing2Body"></div>
-        <button class="add-btn" onclick="addProcessing2Row()">
-          <span>+</span> 追加
-        </button>
-      </div>
-
-      <!-- Section 6: 部品費 -->
-      <div class="section-table">
-        <div class="section-title parts">部品費</div>
-        <div id="partsDetailBody"></div>
-        <button class="add-btn" onclick="addPartsDetailRow()">
-          <span>+</span> 追加
-        </button>
-      </div>
-
-      <!-- Section 7: 梱包費 -->
-      <div class="section-table">
-        <div class="section-title packaging">梱包費</div>
-        <div id="packagingBody"></div>
-        <button class="add-btn" onclick="addPackagingRow()">
-          <span>+</span> 追加
-        </button>
-      </div>
-
-      <!-- Section 8: 輸送費 -->
-      <div class="section-table">
-        <div class="section-title transport">輸送費</div>
-        <div class="section-content">
-          <div class="form-grid" id="transportForm">
-            <!-- Rendered by JS -->
+      <!-- Step 6: Other (Section 9) -->
+      <div id="step6" class="step-content">
+        <div class="section-table">
+          <div class="section-title other">その他費</div>
+          <div class="section-content">
+            <div class="form-grid" id="otherCostForm"></div>
           </div>
         </div>
       </div>
 
-      <!-- Section 9: その他費 -->
-      <div class="section-table">
-        <div class="section-title other">その他費</div>
-        <div class="section-content">
-          <div class="form-grid" id="otherCostForm">
-            <!-- Rendered by JS -->
+      <!-- Step 7: Mold (Section 10) -->
+      <div id="step7" class="step-content">
+        <div class="section-table">
+          <div class="section-title mold">金型費</div>
+          <div class="section-content">
+            <div class="form-grid" id="moldCostForm"></div>
           </div>
         </div>
       </div>
 
-      <!-- Section 10: 金型費 -->
-      <div class="section-table">
-        <div class="section-title mold">金型費</div>
-        <div class="section-content">
-          <div class="form-grid" id="moldCostForm">
-            <!-- Rendered by JS -->
+      <!-- Step 8: Management (Section 11) -->
+      <div id="step8" class="step-content">
+        <div class="section-table">
+          <div class="section-title management">管理費</div>
+          <div class="section-content">
+            <div class="form-grid" id="managementForm"></div>
           </div>
         </div>
       </div>
 
-      <!-- Section 11: 管理費 -->
-      <div class="section-table">
-        <div class="section-title management">管理費</div>
-        <div class="section-content">
-          <div class="form-grid" id="managementForm">
-            <!-- Rendered by JS -->
+      <!-- Step 9: Profit (Section 12) -->
+      <div id="step9" class="step-content">
+        <div class="section-table">
+          <div class="section-title profit">利益</div>
+          <div class="section-content">
+            <div class="form-grid" id="profitForm"></div>
           </div>
         </div>
       </div>
 
-      <!-- Section 12: 利益 -->
-      <div class="section-table">
-        <div class="section-title profit">利益</div>
-        <div class="section-content">
-          <div class="form-grid" id="profitForm">
-            <!-- Rendered by JS -->
-          </div>
-        </div>
+      <!-- Navigation Buttons -->
+      <div class="step-navigation">
+        <button class="nav-btn prev" id="prevBtn" onclick="prevStep()" disabled>前へ</button>
+        <button class="nav-btn next" id="nextBtn" onclick="nextStep()">次へ</button>
       </div>
 
     </div>
@@ -538,11 +700,66 @@
       document.getElementById('drawingNumberHeader').textContent = '図面番号: ' + drawingNumber;
 
       renderAllDetailSections();
+      showStep(1);
 
       if (window.gprocFillLogic && localStorage.getItem('gproc_excel_data')) {
         try {
           window.gprocFillLogic(JSON.parse(localStorage.getItem('gproc_excel_data')));
         } catch (e) { console.error('Excel同期エラー:', e); }
+      }
+    }
+
+    // ========== Stepper Logic ==========
+    let currentStep = 1;
+
+    function showStep(step) {
+      // Hide all steps
+      for (let i = 1; i <= 9; i++) {
+        const content = document.getElementById('step' + i);
+        const indicator = document.getElementById('stepperStep' + i);
+        if (content) content.classList.remove('active');
+        if (indicator) {
+          indicator.classList.remove('active');
+          indicator.classList.remove('completed');
+          if (i < step) indicator.classList.add('completed');
+        }
+      }
+      // Show current step
+      const currentContent = document.getElementById('step' + step);
+      const currentIndicator = document.getElementById('stepperStep' + step);
+
+      if (currentContent) currentContent.classList.add('active');
+      if (currentIndicator) currentIndicator.classList.add('active');
+
+      currentStep = step;
+
+      // Update buttons
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+
+      if (prevBtn) prevBtn.disabled = (step === 1);
+      if (nextBtn) {
+        if (step === 9) {
+          nextBtn.textContent = '完了 (リストへ)';
+          nextBtn.onclick = function () { goBack(); };
+        } else {
+          nextBtn.textContent = '次へ';
+          nextBtn.onclick = function () { nextStep(); };
+        }
+      }
+    }
+
+    function nextStep() {
+      if (currentStep < 9) {
+        showStep(currentStep + 1);
+        window.scrollTo(0, 0);
+      }
+    }
+
+    function prevStep() {
+      if (currentStep > 1) {
+        showStep(currentStep - 1);
+        window.scrollTo(0, 0);
       }
     }
 
