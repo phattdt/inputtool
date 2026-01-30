@@ -425,7 +425,13 @@
 
     <!-- First Form: Parts List (見積書) -->
     <div id="partsListForm" class="card">
-      <h2 class="card-title">見積書リスト</h2>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <h2 class="card-title" style="margin-bottom: 0;">見積書リスト</h2>
+        <button onclick="importTxtFile()" class="btn btn-confirm"
+          style="background: linear-gradient(135deg, #27ae60, #229954); color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; font-size: 14px;">
+          📥 TXTインポート
+        </button>
+      </div>
       <table id="partsTable">
         <thead>
           <tr>
@@ -443,9 +449,9 @@
         <tbody id="partsTableBody">
         </tbody>
       </table>
-      <button class="add-btn" onclick="addPartRow()">
-        <!-- <span>+</span> 追加 -->
-      </button>
+      <!-- <button class="add-btn" onclick="addPartRow()">
+        <span>+</span> 追加
+      </button> -->
     </div>
 
     <div id="detailForm" class="card hidden">
@@ -604,7 +610,7 @@
 
   <script>
     // Data storage - exposed to window for bookmark access
-    let partsData = [];
+    window.partsData = [];
     window.detailData = {};
     window.currentDrawingNumber = null;
 
@@ -685,6 +691,208 @@
       }
       partsData.splice(index, 1);
       renderPartsTable();
+    }
+
+    // ========== TXT IMPORT ==========
+    function importTxtFile() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.txt';
+      input.style.display = 'none';
+      document.body.appendChild(input);
+
+      input.onchange = function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (ev) {
+          try {
+            const content = ev.target.result;
+            const lines = content.split(/\r?\n/).filter(line => line.trim());
+            const data = parseTxtContent(lines);
+
+            if (!data || !data.header || !data.header.drawingNumber) {
+              alert('TXTファイルからデータを読み取れませんでした。');
+              return;
+            }
+
+            fillDataFromTxt(data);
+            alert('TXTインポートが完了しました！');
+            renderPartsTable();
+          } catch (err) {
+            alert('TXTファイルの解析に失敗しました: ' + err.message);
+            console.error(err);
+          }
+        };
+        reader.readAsText(file, 'UTF-8');
+      };
+      input.click();
+    }
+
+    function parseTxtContent(lines) {
+      const data = {
+        header: {},
+        mat06: {},
+        matd06: [],
+        proc03: [],
+        proc02: [],
+        part: [],
+        pac01: [],
+        logi01: {},
+        other: {},
+        tool: {}
+      };
+
+      lines.forEach(function (line) {
+        const matches = line.match(/"([^"]*)"/g);
+        if (!matches) return;
+        const values = matches.map(m => m.replace(/"/g, ''));
+        const section = values[0];
+
+        if (section === 'QUOTE') {
+          data.header = {
+            quoteNumber: values[1] || '',
+            deptCode: values[2] || '',
+            drawingNumber: values[3] || '',
+            process: values[4] || '',
+            progressive: values[5] || '',
+            productName: values[6] || '',
+            remarks: values[7] || ''
+          };
+        } else if (section === 'MAT06') {
+          data.mat06 = {
+            detailNo: values[1], quoteNo: values[2], conversionRate: values[3],
+            sourceCurrency: values[4], targetCurrency: values[5], weightUnit: values[6],
+            productWeight: values[7], runnerWeight: values[8], yieldRate: values[9],
+            recycledWeight: values[10], recoveredWeight: values[11], recoveredPrice: values[12],
+            productionLot: values[13], wasteWeight: values[14], calcPattern: values[15],
+            displayPattern: values[16], remarks: values[17]
+          };
+        } else if (section === 'MATD06_1') {
+          data.matd06.push({
+            detailNo: values[1], procurementType: values[2], materialCode: values[3],
+            deliveryForm: values[4], supplier: values[5], manufacturer: values[6],
+            color: values[7], grade: values[8], deliveryLot: values[9],
+            blendingRatio: values[10], smallLotEx: values[11], materialPrice: values[12],
+            detailType: values[13], specification: values[14]
+          });
+        } else if (section === 'PROC03') {
+          data.proc03.push({
+            detailNo: values[1], processName: values[2], processId: values[3],
+            equipment: values[4], conversionRate: values[5], sourceCurrency: values[6],
+            targetCurrency: values[7], remarks: values[8], machineRate: values[9],
+            machineCT: values[10], yieldRate: values[11], changeoverTime: values[12],
+            outputQty: values[13], calcPattern: values[14]
+          });
+        } else if (section === 'PROC02') {
+          data.proc02.push({
+            detailNo: values[1], processName: values[2], processId: values[3],
+            conversionRate: values[4], sourceCurrency: values[5], targetCurrency: values[6],
+            remarks: values[7], manRate: values[8], manCT: values[9], yieldRate: values[10],
+            changeoverTime: values[11], outputQty: values[12], personnel: values[13],
+            calcPattern: values[14], lotCount: values[15]
+          });
+        } else if (section === 'PART') {
+          data.part.push({
+            detailNo: values[1], conversionRate: values[2], sourceCurrency: values[3],
+            targetCurrency: values[4], partName: values[5], modelNumber: values[6],
+            processClass: values[7], procurementType: values[8], originCountry: values[9],
+            supplier: values[10], manufacturer: values[11], remarks: values[12],
+            quantity: values[13], unitPrice: values[14], daikinDrawingNo: values[15],
+            vendorDrawingNo: values[16]
+          });
+        } else if (section === 'PAC01') {
+          data.pac01.push({
+            detailNo: values[1], seqNo: values[2], conversionRate: values[3],
+            sourceCurrency: values[4], targetCurrency: values[5], quantity: values[6],
+            unit: values[7], unitPrice: values[8], rotationCount: values[9],
+            supplier: values[10], piecesPerBox: values[11], materialName: values[12],
+            specification: values[13], remarks: values[14]
+          });
+        } else if (section === 'LOGI01') {
+          data.logi01 = {
+            detailNo: values[1], conversionRate: values[2], sourceCurrency: values[3],
+            targetCurrency: values[4], shippingOrigin: values[5], deliveryDest: values[6],
+            distance: values[7], boxHeight: values[8], boxWidth: values[9],
+            boxDepth: values[10], weight: values[11], packageForm: values[12],
+            transportCategory: values[13], transportMethod: values[14], logisticsPrice: values[15],
+            boxQuantity: values[16], transportQty: values[17], handlingFee: values[18],
+            otherFee: values[19], weightUnit: values[20], lengthUnit: values[21], remarks: values[22]
+          };
+        } else if (section === 'OTHER') {
+          data.other = {
+            detailNo: values[1], otherCost: values[2], conversionRate: values[3],
+            sourceCurrency: values[4], targetCurrency: values[5], item: values[6], remarks: values[7]
+          };
+        } else if (section === 'TOOL') {
+          data.tool = {
+            detailNo: values[1], conversionRate: values[2], sourceCurrency: values[3],
+            targetCurrency: values[4], moldName: values[5], storageLocation: values[6],
+            procurementType: values[7], paymentMethod: values[8], investmentAmount: values[9],
+            depreciationCount: values[10], supplier: values[11], remarks: values[12]
+          };
+        }
+      });
+
+      return data;
+    }
+
+    function fillDataFromTxt(data) {
+      const drawingNumber = data.header.drawingNumber;
+      if (!drawingNumber) return;
+
+      // Find or create part row
+      let partIdx = window.partsData.findIndex(p => p.drawingNumber === drawingNumber);
+      if (partIdx === -1) {
+        partIdx = window.partsData.findIndex(p => !p.drawingNumber);
+        if (partIdx === -1) {
+          addPartRow();
+          partIdx = window.partsData.length - 1;
+        }
+      }
+
+      // Fill parts data
+      const part = window.partsData[partIdx];
+      part.drawingNumber = drawingNumber;
+      part.quoteNumber = data.header.quoteNumber || '';
+      part.deptCode = data.header.deptCode || '';
+      part.process = data.header.process || '';
+      part.progressive = data.header.progressive || '';
+      part.productName = data.header.productName || '';
+      part.remarks = data.header.remarks || '';
+
+      // Initialize detail data
+      if (!window.detailData[drawingNumber]) {
+        window.detailData[drawingNumber] = createEmptyDetailData();
+      }
+
+      const details = window.detailData[drawingNumber];
+
+      // Fill material resin
+      details.materialResin = data.mat06;
+
+      // Fill material details
+      details.materialDetail = data.matd06;
+
+      // Fill processing
+      details.processing3 = data.proc03;
+      details.processing2 = data.proc02;
+
+      // Fill parts detail
+      details.partsDetail = data.part;
+
+      // Fill packaging
+      details.packaging = data.pac01;
+
+      // Fill transport
+      details.transport = data.logi01;
+
+      // Fill other cost
+      details.otherCost = data.other;
+
+      // Fill mold cost
+      details.moldCost = data.tool;
     }
 
     // ========== DETAIL VIEW ==========
