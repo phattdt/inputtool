@@ -48,86 +48,210 @@ javascript: (function () {
 			injectStyles();
 			const sections = [
 				{
-					title: "部品リスト (Main Parts List)",
+					title: "見積書リスト (Parts List)",
 					sectionKey: "ヘッダー",
 					fields: [
-						{ key: "parts_drawingNumber", label: "図面番号", autoMatch: ["図面番号"] },
-						{ key: "parts_partName", label: "部品名称", autoMatch: ["部品名称"] },
-						{ key: "parts_model", label: "代表機種", autoMatch: ["代表機種"] },
-						{ key: "parts_estimatedQty", label: "見積り数", autoMatch: ["見積り数", "見積数"] },
-						{ key: "parts_estimateNum", label: "見積書＃", autoMatch: ["見積書＃", "見積り"] },
-						{ key: "parts_unitPrice", label: "単価 (リスト用)", autoMatch: ["単価"] },
-						{ key: "parts_appPeriod", label: "適用時期", autoMatch: ["適用時期", "運用時期"] }
+						{ key: "parts_drawingNumber", label: "図面番号", autoMatch: ["図面番号", "部品名"] },
+						{ key: "parts_quoteNumber", label: "見積書番号", autoMatch: ["見積書番号", "見積書＃", "見積番号"] },
+						{ key: "parts_deptCode", label: "事部コード", autoMatch: ["事部コード", "部門コード"] },
+						{ key: "parts_process", label: "工程", autoMatch: ["工程"] },
+						{ key: "parts_progressive", label: "累進", autoMatch: ["累進"] },
+						{ key: "parts_productName", label: "品名仕様", autoMatch: ["品名仕様", "品名"] },
+						{ key: "parts_remarks", label: "備考", autoMatch: ["備考"] }
 					]
 				},
 				{
-					title: "材料費 (Material Cost)",
+					title: "材料費（配管）(Material Piping)",
 					sectionKey: "材料費",
 					fields: [
-						{ key: "mat_drawing_number", label: "図面番号", autoMatch: ["図面番号"] },
-						{ key: "mat_material", label: "素材", autoMatch: ["素材", "C1220"] },
-						{ key: "mat_temper", label: "調質", autoMatch: ["調質"] },
-						{ key: "mat_diameter", label: "外径", autoMatch: ["外径", "φ"] },
-						{ key: "mat_thickness", label: "肉厚", autoMatch: ["肉厚", "t"] },
-						{ key: "mat_length", label: "長さ", autoMatch: ["長さ", "l"] },
-						{ key: "mat_quantity", label: "取り数", autoMatch: ["取り数"] },
-						{ key: "mat_weight", label: "単重量(消費)", autoMatch: ["単重量"] },
-						{ key: "mat_unit_price", label: "単価(消費)", autoMatch: ["単価"] },
-						{ key: "mat_price", label: "価格(消費)", autoMatch: ["価格"] },
-						{ key: "mat_proc_weight", label: "単重量(加工)", autoMatch: ["単重量"] },
-						{ key: "mat_proc_unit_price", label: "単価(加工)", autoMatch: ["単価"] },
-						{ key: "mat_proc_price", label: "価格(加工)", autoMatch: ["価格"] },
-						{ key: "mat_material_cost", label: "材料費", autoMatch: ["材料費"] },
-						{ key: "mat_piping_price", label: "配管価格", autoMatch: ["配管価格"] }
+						{ key: "mat_recordType", label: "レコード区分", autoMatch: ["レコード区分"] },
+						{ key: "mat_detailNo", label: "明細番号", autoMatch: ["明細書番号"] },
+						{ key: "mat_quoteNumber", label: "見積書番号", autoMatch: ["見積書番号", "見積書＃", "見積番号"] },
+						{ key: "mat_conversionRate", label: "換算レート", autoMatch: ["換算レート"] },
+						{ key: "mat_sourceCurrency", label: "換算元通貨", autoMatch: ["換算元通貨"] },
+						{ key: "mat_targetCurrency", label: "換算先通貨", autoMatch: ["換算先通貨"] },
+						{ key: "mat_weightUnit", label: "重量単位", autoMatch: ["重量単位"] },
+						{ key: "mat_lengthUnit", label: "長さ単位", autoMatch: ["長さ単位"] },
+						{ key: "mat_specificGravity", label: "比重", autoMatch: ["比重", "材質"] },
+						{ key: "mat_quantity", label: "取り数", autoMatch: ["取り数", "取り数"] },
+						{ key: "mat_outerDiameter", label: "外径", autoMatch: ["外径"] },
+						{ key: "mat_thickness", label: "肉厚", autoMatch: ["肉厚"] },
+						{ key: "mat_length", label: "長さ", autoMatch: ["長さ"] },
+						{ key: "mat_productWeight", label: "製品重量", autoMatch: ["製品重量", "重量"] },
+						{ key: "mat_lossWeight", label: "ロス重量", autoMatch: ["ロス重量"] },
+						{ key: "mat_scpUnitPrice", label: "SCP単価", autoMatch: ["SCP単価"] },
+						{ key: "mat_weightPerPiece", label: "1個あたり重量（直接入力）", autoMatch: ["1個あたり重量", "直接入力", "台 り 材 料 費合 計"] },
+						{ key: "mat_calcPattern", label: "計算パターン", autoMatch: ["計算パターン"] },
+						{ key: "mat_displayPattern", label: "表示パターン", autoMatch: ["表示パターン"] },
+						{ key: "mat_remarks", label: "備考", autoMatch: ["備考"] }
 					]
 				},
 				{
-					title: "購入部品費 (Purchase Parts)",
-					sectionKey: "購入部品費",
+					title: "材料費（樹脂）明細 (Material Detail)",
+					sectionKey: "材料費明細",
 					fields: [
-						{ key: "pur_part_name", label: "部品名及び仕様", autoMatch: ["部品名及び仕様", "部品名"] },
-						{ key: "pur_drawing_num", label: "図面番号", autoMatch: ["図面番号"] },
-						{ key: "pur_required", label: "所要数", autoMatch: ["所要数"] },
-						{ key: "pur_unit_price", label: "単価", autoMatch: ["単価"] }
+						{ key: "matd_recordType", label: "レコード区分", autoMatch: ["レコード区分"] },
+						{ key: "matd_required", label: "必須", autoMatch: ["必須"] },
+						{ key: "matd_priority", label: "優先", autoMatch: ["優先"] },
+						{ key: "matd_appType", label: "アプリ区分", autoMatch: ["アプリ区分"] },
+						{ key: "matd_specificGravity", label: "比重", autoMatch: ["比重"] },
+						{ key: "matd_smallLot", label: "小ロット", autoMatch: ["小ロット"] },
+						{ key: "matd_deliveryPrice", label: "納入価格", autoMatch: ["納入価格"] },
+						{ key: "matd_codeName", label: "コード名称", autoMatch: ["コード名称"] },
+						{ key: "matd_lotProduction", label: "ロット生産数", autoMatch: ["ロット生産数"] },
+						{ key: "matd_remarks", label: "備考", autoMatch: ["備考"] }
 					]
 				},
 				{
-					title: "プレス・配管加工費 (Press/Piping)",
+					title: "加工費（パターン３）(Processing Pattern 3)",
 					sectionKey: "プレス・配管加工費",
 					fields: [
-						{ key: "prs_part_name", label: "部品名(金型費)", autoMatch: ["部品名", "金型費"] },
-						{ key: "prs_process", label: "加工工程", autoMatch: ["加工工程"] },
-						{ key: "prs_equipment", label: "使用設備", autoMatch: ["使用設備"] },
-						{ key: "prs_cycle_setup", label: "段取り", autoMatch: ["段取り"] },
-						{ key: "prs_cycle_proc", label: "加工", autoMatch: ["加工"] },
-						{ key: "prs_cycle_total", label: "計", autoMatch: ["計"] },
-						{ key: "prs_charge", label: "チャージ(円/分)", autoMatch: ["チャージ", "円/分"] },
-						{ key: "prs_cost", label: "加工費", autoMatch: ["加工費"] },
-						{ key: "prs_required", label: "所要数", autoMatch: ["所要数"] }
+						{ key: "proc3_processName", label: "加工工程", autoMatch: ["加工工程"] },
+						{ key: "proc3_processId", label: "加工工程識別名", autoMatch: ["加工工程識別名", "識別名"] },
+						{ key: "proc3_equipment", label: "使用設備", autoMatch: ["使用設備"] },
+						{ key: "proc3_conversionRate", label: "換算レート", autoMatch: ["換算レート"] },
+						{ key: "proc3_machineRate", label: "マシンレート", autoMatch: ["マシンレート"] },
+						{ key: "proc3_machineCT", label: "マシンコストCT", autoMatch: ["マシンコストCT", "CT"] },
+						{ key: "proc3_yieldRate", label: "歩留り", autoMatch: ["歩留り", "歩留"] },
+						{ key: "proc3_changeoverTime", label: "段替時間", autoMatch: ["段替時間", "段取り"] },
+						{ key: "proc3_outputQty", label: "取り数", autoMatch: ["取り数", "所要数"] },
+						{ key: "proc3_calcPattern", label: "計算パターン", autoMatch: ["計算パターン"] },
+						{ key: "proc3_cost", label: "加工費", autoMatch: ["加工費"] },
+						{ key: "proc3_remarks", label: "備考", autoMatch: ["備考"] }
 					]
 				},
 				{
-					title: "二次加工費 (Secondary Processing)",
+					title: "加工費（パターン２）(Processing Pattern 2)",
 					sectionKey: "二次加工費",
 					fields: [
-						{ key: "sec_process", label: "加工工程", autoMatch: ["加工工程"] },
-						{ key: "sec_personnel", label: "人員", autoMatch: ["人員"] },
-						{ key: "sec_cycle_time", label: "サイクルタイム", autoMatch: ["サイクルタイム", "サイクル"] },
-						{ key: "sec_charge", label: "チャージ(円/分)", autoMatch: ["チャージ", "円/分"] },
-						{ key: "sec_cost", label: "加工費", autoMatch: ["加工費"] }
+						{ key: "proc2_recordType", label: "レコード区分", autoMatch: ["レコード区分"] },
+						{ key: "proc2_quoteNumber", label: "見積書番号", autoMatch: ["見積書番号"] },
+						{ key: "proc2_processName", label: "加工工程", autoMatch: ["加工工程"] },
+						{ key: "proc2_processId", label: "加工工程識別名", autoMatch: ["加工工程識別名", "識別名", "部品名（金型費）"] },
+						{ key: "proc2_conversionRate", label: "換算レート", autoMatch: ["換算レート"] },
+						{ key: "proc2_sourceCurrency", label: "換算元通貨", autoMatch: ["換算元通貨"] },
+						{ key: "proc2_targetCurrency", label: "換算先通貨", autoMatch: ["換算先通貨"] },
+						{ key: "proc2_location", label: "拠点", autoMatch: ["拠点"] },
+						{ key: "proc2_manRate", label: "マンレート（@/Hr）", autoMatch: ["マンレート", "チャージ", "@/Hr"] },
+						{ key: "proc2_manCT", label: "マンコストCT（s）", autoMatch: ["マンコストCT", "サイクルタイム", "s"] },
+						{ key: "proc2_yieldRate", label: "歩留り(%)", autoMatch: ["歩留り", "歩留", "%"] },
+						{ key: "proc2_changeoverTime", label: "段替時間（s）", autoMatch: ["段替時間", "段取り", "s"] },
+						{ key: "proc2_outputQty", label: "取り数", autoMatch: ["取り数", "所要数"] },
+						{ key: "proc2_personnel", label: "人数", autoMatch: ["人数", "人員"] },
+						{ key: "proc2_calcPattern", label: "計算パターン", autoMatch: ["計算パターン"] },
+						{ key: "proc2_remarks", label: "備考", autoMatch: ["備考"] },
+						{ key: "proc2_lotCount", label: "ロット数", autoMatch: ["ロット数"] }
 					]
 				},
 				{
-					title: "単価内訳 (Breakdown)",
-					sectionKey: "単価",
+					title: "部品費 (Parts Cost)",
+					sectionKey: "購入部品費",
 					fields: [
-						{ key: "bd_mat_total", label: "材料費合計", autoMatch: ["材料費合計", "1台当り材料費合計"] },
-						{ key: "bd_mat_mgmt", label: "材料管理費", autoMatch: ["材料管理費"] },
-						{ key: "bd_proc_total", label: "加工費合計", autoMatch: ["加工費合計", "1台当り加工費合計"] },
-						{ key: "bd_gen_sales", label: "一般販売管理費", autoMatch: ["一般販売管理費"] },
-						{ key: "bd_profit", label: "利益", autoMatch: ["利益"] },
-						{ key: "bd_freight", label: "運賃・家賃", autoMatch: ["運賃・家賃", "運賃"] },
-						{ key: "bd_total", label: "合計", autoMatch: ["合計"] }
+						{ key: "part_recordType", label: "レコード区分", autoMatch: ["レコード区分"] },
+						{ key: "part_quoteNumber", label: "見積書番号", autoMatch: ["見積書番号"] },
+						{ key: "part_conversionRate", label: "換算レート", autoMatch: ["換算レート"] },
+						{ key: "part_sourceCurrency", label: "換算元通貨", autoMatch: ["換算元通貨"] },
+						{ key: "part_targetCurrency", label: "換算先通貨", autoMatch: ["換算先通貨"] },
+						{ key: "part_partName", label: "品名", autoMatch: ["品名", "部品名"] },
+						{ key: "part_modelNumber", label: "型式番号", autoMatch: ["型式番号", "部品名及び仕様"] },
+						{ key: "part_processClass", label: "工程分類", autoMatch: ["工程分類"] },
+						{ key: "part_procurementType", label: "調達区分", autoMatch: ["調達区分"] },
+						{ key: "part_originCountry", label: "原産国", autoMatch: ["原産国"] },
+						{ key: "part_supplier", label: "購入元", autoMatch: ["購入元"] },
+						{ key: "part_manufacturer", label: "メーカー", autoMatch: ["メーカー"] },
+						{ key: "part_remarks", label: "備考", autoMatch: ["備考"] },
+						{ key: "part_quantity", label: "所要量", autoMatch: ["所要量", "所要数"] },
+						{ key: "part_unitPrice", label: "単価", autoMatch: ["単価"] },
+						{ key: "part_daikinDrawingNo", label: "ダイキン図面番号", autoMatch: ["ダイキン図面番号", "明細書"] },
+						{ key: "part_vendorDrawingNo", label: "取引先図面番号", autoMatch: ["取引先図面番号"] }
+					]
+				},
+				{
+					title: "梱包費 (Packaging)",
+					sectionKey: "梱包費",
+					fields: [
+						{ key: "pac_detailType", label: "明細区分", autoMatch: ["明細区分"] },
+						{ key: "pac_quantity", label: "所要量", autoMatch: ["所要量", "所要数"] },
+						{ key: "pac_unit", label: "単位", autoMatch: ["単位"] },
+						{ key: "pac_unitPrice", label: "単価", autoMatch: ["単価"] },
+						{ key: "pac_rotationCount", label: "回転数", autoMatch: ["回転数"] },
+						{ key: "pac_supplier", label: "購入元", autoMatch: ["購入元"] },
+						{ key: "pac_piecesPerBox", label: "入り数", autoMatch: ["入り数"] },
+						{ key: "pac_materialName", label: "材料名", autoMatch: ["材料名"] },
+						{ key: "pac_specification", label: "仕様", autoMatch: ["仕様"] },
+						{ key: "pac_remarks", label: "備考", autoMatch: ["備考"] }
+					]
+				},
+				{
+					title: "輸送費 (Transport)",
+					sectionKey: "輸送費",
+					fields: [
+						{ key: "trans_shippingOrigin", label: "出荷元", autoMatch: ["出荷元"] },
+						{ key: "trans_deliveryDest", label: "納入先", autoMatch: ["納入先"] },
+						{ key: "trans_distance", label: "輸送距離", autoMatch: ["輸送距離"] },
+						{ key: "trans_boxHeight", label: "箱サイズ（タテ）", autoMatch: ["タテ", "箱サイズ"] },
+						{ key: "trans_boxWidth", label: "箱サイズ（ヨコ）", autoMatch: ["ヨコ"] },
+						{ key: "trans_boxDepth", label: "箱サイズ（タカサ）", autoMatch: ["タカサ"] },
+						{ key: "trans_weight", label: "重量", autoMatch: ["重量"] },
+						{ key: "trans_packageForm", label: "荷姿", autoMatch: ["荷姿"] },
+						{ key: "trans_transportCategory", label: "輸送カテゴリー", autoMatch: ["輸送カテゴリー"] },
+						{ key: "trans_transportMethod", label: "輸送手段", autoMatch: ["輸送手段"] },
+						{ key: "trans_logisticsPrice", label: "物流単価", autoMatch: ["物流単価"] },
+						{ key: "trans_boxQuantity", label: "箱入り数", autoMatch: ["箱入り数"] },
+						{ key: "trans_transportQty", label: "輸送数量", autoMatch: ["輸送数量"] },
+						{ key: "trans_handlingFee", label: "荷役費", autoMatch: ["荷役費"] },
+						{ key: "trans_otherFee", label: "その他費", autoMatch: ["その他費"] },
+						{ key: "trans_remarks", label: "備考", autoMatch: ["備考"] }
+					]
+				},
+				{
+					title: "その他費 (Other Cost)",
+					sectionKey: "その他費",
+					fields: [
+						{ key: "other_cost", label: "その他費", autoMatch: ["その他費"] },
+						{ key: "other_item", label: "項目", autoMatch: ["項目"] },
+						{ key: "other_remarks", label: "備考", autoMatch: ["備考"] }
+					]
+				},
+				{
+					title: "金型費 (Mold Cost)",
+					sectionKey: "金型費",
+					fields: [
+						{ key: "mold_recordType", label: "レコード区分", autoMatch: ["レコード区分"] },
+						{ key: "mold_quoteNumber", label: "見積書番号", autoMatch: ["見積書番号"] },
+						{ key: "mold_conversionRate", label: "換算レート", autoMatch: ["換算レート"] },
+						{ key: "mold_sourceCurrency", label: "換算元通貨", autoMatch: ["換算元通貨"] },
+						{ key: "mold_targetCurrency", label: "換算先通貨", autoMatch: ["換算先通貨"] },
+						{ key: "mold_moldName", label: "金型名称", autoMatch: ["金型名称", "金型費", "代表機種"] },
+						{ key: "mold_storageLocation", label: "金型保管場所", autoMatch: ["保管場所"] },
+						{ key: "mold_procurementType", label: "調達区分", autoMatch: ["調達区分"] },
+						{ key: "mold_paymentMethod", label: "支払方法", autoMatch: ["支払方法"] },
+						{ key: "mold_investmentAmount", label: "投資額", autoMatch: ["投資額"] },
+						{ key: "mold_depreciationCount", label: "償却数", autoMatch: ["償却数", "尼崎パイプ製作所"] },
+						{ key: "mold_supplier", label: "購入元", autoMatch: ["購入元"] },
+						{ key: "mold_remarks", label: "備考", autoMatch: ["備考"] }
+					]
+				},
+				{
+					title: "管理費 (EXPENSE)",
+					sectionKey: "管理費",
+					fields: [
+						{ key: "mgmt_recordType", label: "レコード区分", autoMatch: ["レコード区分"] },
+						{ key: "mgmt_quoteNumber", label: "見積書番号", autoMatch: ["見積書番号"] },
+						{ key: "mgmt_expenseCode", label: "費目コード", autoMatch: ["費目コード"] },
+						{ key: "mgmt_managementFee", label: "管理費", autoMatch: ["管理費", "材料管理費", "一般販売管理費"] },
+						{ key: "mgmt_ratio", label: "比率", autoMatch: ["比率"] }
+					]
+				},
+				{
+					title: "利益 (Profit)",
+					sectionKey: "利益",
+					fields: [
+						{ key: "profit_recordType", label: "レコード区分", autoMatch: ["レコード区分"] },
+						{ key: "profit_quoteNumber", label: "見積書番号", autoMatch: ["見積書番号"] },
+						{ key: "profit_expenseCode", label: "費目コード", autoMatch: ["費目コード"] },
+						{ key: "profit_profitAmount", label: "利益", autoMatch: ["利益"] },
+						{ key: "profit_ratio", label: "比率", autoMatch: ["比率"] }
 					]
 				}
 			];
@@ -307,15 +431,16 @@ javascript: (function () {
 						return "";
 					}
 					var record = {};
-					record["図面番号"] = getValSmart("parts_drawingNumber");
-					record["部品名称"] = getValSmart("parts_partName");
-					record["代表機種"] = getValSmart("parts_model");
-					record["見積り数"] = getValSmart("parts_estimatedQty");
-					record["見積書＃"] = getValSmart("parts_estimateNum");
-					record["適用時期"] = getValSmart("parts_appPeriod");
-					if (record["図面番号"] == undefined && record["適用機種名"]) {
-						record["図面番号"] = record["適用機種名"];
-					}
+					record["drawingNumber"] = getValSmart("parts_drawingNumber");
+					record["quoteNumber"] = getValSmart("parts_quoteNumber");
+					record["deptCode"] = getValSmart("parts_deptCode");
+					record["process"] = getValSmart("parts_process");
+					record["progressive"] = getValSmart("parts_progressive");
+					record["productName"] = getValSmart("parts_productName");
+					record["remarks"] = getValSmart("parts_remarks");
+
+					if (!record["drawingNumber"]) return;
+
 					var targetRow = Array.from(document.querySelectorAll('#partsTableBody tr')).find(r => !r.querySelector('input').value);
 					if (!targetRow && window.addPartRow) {
 						window.addPartRow();
@@ -323,14 +448,13 @@ javascript: (function () {
 					}
 					if (targetRow) {
 						var ins = targetRow.querySelectorAll('input');
-						ins[0].value = record["図面番号"] || "";
-						ins[1].value = record["部品名称"] || "";
-						ins[2].value = record["代表機種"] || "";
-						ins[3].value = record["見積り数"] || "";
-						ins[4].value = record["見積書＃"] || "";
-						const up = getVal((rows.length > headerIdx + 1 ? rows[headerIdx + 1] : []), headerRow, "parts_unitPrice", mapping);
-						ins[5].value = up || "";
-						ins[6].value = record["適用時期"] || "";
+						ins[0].value = record["drawingNumber"] || "";
+						ins[1].value = record["quoteNumber"] || "";
+						ins[2].value = record["deptCode"] || "";
+						ins[3].value = record["process"] || "";
+						ins[4].value = record["progressive"] || "";
+						ins[5].value = record["productName"] || "";
+						ins[6].value = record["remarks"] || "";
 						ins.forEach(inp => inp.dispatchEvent(new Event('change', { bubbles: true })));
 					}
 				});
@@ -347,6 +471,7 @@ javascript: (function () {
 				let mainHeaderIdx = findHeaderIdx(rows, "図面番号");
 				if (mainHeaderIdx === -1) mainHeaderIdx = 0;
 				const mainHeaderRow = rows[mainHeaderIdx];
+
 				function extractSectionRows(label, offset, maxRows) {
 					const targetLabel = label;
 					const rIdx = findRowByLabel(rows, targetLabel);
@@ -360,6 +485,7 @@ javascript: (function () {
 					}
 					return result;
 				}
+
 				function getLocalHeader(label, expectedKey, defaultHeader) {
 					const rIdx = findRowByLabel(rows, label);
 					if (rIdx === -1) return defaultHeader;
@@ -367,105 +493,205 @@ javascript: (function () {
 					if (rows[rIdx + 1]) return rows[rIdx + 1];
 					return defaultHeader;
 				}
-				const materialRows = extractSectionRows("材料費", 2, 20);
-				const matHeader = getLocalHeader("材料費", "調質", mainHeaderRow);
-				materialRows.forEach((exR, i) => {
-					while (window.detailData[drawingNumber].material.length <= i) {
-						window.detailData[drawingNumber].material.push({ id: 'id_' + Math.random().toString(36).substr(2, 9), drawingNumber: '', material: '', temper: '', diameter: '', thickness: '', length: '', quantity: '', weight: '', unitPrice: '', price: '', procWeight: '', procUnitPrice: '', procPrice: '', materialCost: '', pipingPrice: '' });
-					}
-					const m = window.detailData[drawingNumber].material[i];
-					const h = matHeader;
-					m.drawingNumber = getVal(exR, h, "mat_drawing_number", mapping);
-					m.material = getVal(exR, h, "mat_material", mapping);
-					m.temper = getVal(exR, h, "mat_temper", mapping);
-					m.diameter = getValNum(exR, h, "mat_diameter", mapping);
-					m.thickness = getValNum(exR, h, "mat_thickness", mapping);
-					m.length = getValNum(exR, h, "mat_length", mapping);
-					m.quantity = getValNum(exR, h, "mat_quantity", mapping);
-					m.weight = getValNum(exR, h, "mat_weight", mapping);
-					m.unitPrice = getValNum(exR, h, "mat_unit_price", mapping);
-					m.price = getValNum(exR, h, "mat_price", mapping);
-					m.procWeight = getValNum(exR, h, "mat_proc_weight", mapping);
-					m.procUnitPrice = getValNum(exR, h, "mat_proc_unit_price", mapping);
-					m.procPrice = getValNum(exR, h, "mat_proc_price", mapping);
-					m.materialCost = getValNum(exR, h, "mat_material_cost", mapping);
-					m.pipingPrice = getValNum(exR, h, "mat_piping_price", mapping);
-				});
-				const purchaseRows = extractSectionRows("購入部品費", 1, 20);
-				const purHeader = getLocalHeader("購入部品費", "部品名", mainHeaderRow);
-				let pIdx = 0;
-				purchaseRows.forEach((exR) => {
-					if (!exR || exR.length === 0) return;
-					while (window.detailData[drawingNumber].purchase.length <= pIdx) {
-						window.detailData[drawingNumber].purchase.push({ id: 'id_' + Math.random().toString(36).substr(2, 9), partName: '', drawingNum: '', required: '', unitPrice: '' });
-					}
-					const p = window.detailData[drawingNumber].purchase[pIdx];
-					const h = purHeader;
-					p.partName = getVal(exR, h, "pur_part_name", mapping);
-					p.drawingNum = getVal(exR, h, "pur_drawing_num", mapping);
-					p.required = getValNum(exR, h, "pur_required", mapping);
-					p.unitPrice = getValNum(exR, h, "pur_unit_price", mapping);
-					if (p.partName || p.drawingNum) pIdx++;
-				});
 
-				const pressRows = extractSectionRows("プレス・配管加工費", 3, 20);
-				const prsHeader = getLocalHeader("プレス・配管加工費", "部品名", mainHeaderRow);
-				let prsIdx = 0;
-				pressRows.forEach((exR) => {
-					while (window.detailData[drawingNumber].press.length <= prsIdx) {
-						window.detailData[drawingNumber].press.push({ id: 'id_' + Math.random().toString(36).substr(2, 9), partName: '', process: '', equipment: '', cycleSetup: '', cycleProc: '', cycleTotal: '', charge: '', cost: '', required: '' });
-					}
-					const pr = window.detailData[drawingNumber].press[prsIdx];
-					const h = prsHeader;
-					pr.partName = getVal(exR, h, "prs_part_name", mapping);
-					pr.process = getVal(exR, h, "prs_process", mapping);
-					pr.equipment = getVal(exR, h, "prs_equipment", mapping);
-					pr.cycleSetup = getValNum(exR, h, "prs_cycle_setup", mapping);
-					pr.cycleProc = getValNum(exR, h, "prs_cycle_proc", mapping);
-					pr.cycleTotal = getValNum(exR, h, "prs_cycle_total", mapping);
-					pr.charge = getValNum(exR, h, "prs_charge", mapping);
-					pr.cost = getValNum(exR, h, "prs_cost", mapping);
-					pr.required = getValNum(exR, h, "prs_required", mapping);
-					if (pr.partName || pr.process) prsIdx++;
-				});
-
-				const secondaryRows = extractSectionRows("二次加工費", 1, 20);
-				const secHeader = getLocalHeader("二次加工費", "加工工程", mainHeaderRow);
-				secondaryRows.forEach((exR, i) => {
-					while (window.detailData[drawingNumber].secondary.length <= i) {
-						window.detailData[drawingNumber].secondary.push({ id: 'id_' + Math.random().toString(36).substr(2, 9), process: '', personnel: '', cycleTime: '', charge: '', cost: '' });
-					}
-					const s = window.detailData[drawingNumber].secondary[i];
-					const h = secHeader;
-					s.process = getVal(exR, h, "sec_process", mapping);
-					s.personnel = getValNum(exR, h, "sec_personnel", mapping);
-					s.cycleTime = getValNum(exR, h, "sec_cycle_time", mapping);
-					s.charge = getValNum(exR, h, "sec_charge", mapping);
-					s.cost = getValNum(exR, h, "sec_cost", mapping);
-				});
-				const breakdownLabel = "単価";
-				const breakdownIdx = findRowByLabel(rows, breakdownLabel);
-				if (breakdownIdx !== -1) {
-					if (!window.detailData[drawingNumber].breakdown) {
-						window.detailData[drawingNumber].breakdown = {};
-					}
-					const bd = window.detailData[drawingNumber].breakdown;
-					const valuesRow = rows[breakdownIdx + 3];
-					const bdHeader = (breakdownIdx !== -1 && rows[breakdownIdx + 1]) ? rows[breakdownIdx + 1] : mainHeaderRow;
-					const h = bdHeader;
-					if (valuesRow) {
-						bd.materialTotal = getValNum(valuesRow, h, "bd_mat_total", mapping);
-						bd.materialMgmt = getValNum(valuesRow, h, "bd_mat_mgmt", mapping);
-						bd.procTotal = getValNum(valuesRow, h, "bd_proc_total", mapping);
-						bd.genSales = getValNum(valuesRow, h, "bd_gen_sales", mapping);
-						bd.profit = getValNum(valuesRow, h, "bd_profit", mapping);
-						bd.freight = getValNum(valuesRow, h, "bd_freight", mapping);
-						bd.materialMgmt14 = "";
-						bd.genSales15 = "";
-						bd.total = getValNum(valuesRow, h, "bd_total", mapping);
-					}
+				const dd = window.detailData[drawingNumber];
+				const matResinRow = extractSectionRows("材料費", 1, 1)[0];
+				if (matResinRow) {
+					const h = getLocalHeader("材料費", "製品重量", mainHeaderRow);
+					dd.materialResin.detailNo = getVal(matResinRow, h, "mat_detailNo", mapping);
+					dd.materialResin.conversionRate = getValNum(matResinRow, h, "mat_conversionRate", mapping) || "1";
+					dd.materialResin.sourceCurrency = getVal(matResinRow, h, "mat_sourceCurrency", mapping) || "JPY";
+					dd.materialResin.targetCurrency = getVal(matResinRow, h, "mat_targetCurrency", mapping) || "JPY";
+					dd.materialResin.weightUnit = getVal(matResinRow, h, "mat_weightUnit", mapping) || "KG";
+					dd.materialResin.productWeight = getValNum(matResinRow, h, "mat_productWeight", mapping);
+					dd.materialResin.runnerWeight = getValNum(matResinRow, h, "mat_runnerWeight", mapping);
+					dd.materialResin.yieldRate = getValNum(matResinRow, h, "mat_yieldRate", mapping);
+					dd.materialResin.recycledWeight = getValNum(matResinRow, h, "mat_recycledWeight", mapping);
+					dd.materialResin.recoveredWeight = getValNum(matResinRow, h, "mat_recoveredWeight", mapping);
+					dd.materialResin.recoveredPrice = getValNum(matResinRow, h, "mat_recoveredPrice", mapping);
+					dd.materialResin.productionLot = getValNum(matResinRow, h, "mat_productionLot", mapping);
+					dd.materialResin.wasteWeight = getValNum(matResinRow, h, "mat_wasteWeight", mapping);
+					dd.materialResin.calcPattern = getVal(matResinRow, h, "mat_calcPattern", mapping);
+					dd.materialResin.displayPattern = getVal(matResinRow, h, "mat_displayPattern", mapping);
+					dd.materialResin.remarks = getVal(matResinRow, h, "mat_remarks", mapping);
 				}
-				if (window.renderDetailTables) {
+
+				const matDetailRows = extractSectionRows("材料費", 2, 20);
+				const matDetailHeader = getLocalHeader("材料費", "調達区分", mainHeaderRow);
+				matDetailRows.forEach((exR, i) => {
+					while (dd.materialDetail.length <= i) {
+						dd.materialDetail.push(window.createEmptyMaterialDetail ? window.createEmptyMaterialDetail() : { id: 'id_' + Math.random().toString(36).substr(2, 9) });
+					}
+					const m = dd.materialDetail[i];
+					const h = matDetailHeader;
+					m.procurementType = getVal(exR, h, "matd_procurementType", mapping);
+					m.materialCode = getVal(exR, h, "matd_materialCode", mapping);
+					m.deliveryForm = getVal(exR, h, "matd_deliveryForm", mapping);
+					m.supplier = getVal(exR, h, "matd_supplier", mapping);
+					m.manufacturer = getVal(exR, h, "matd_manufacturer", mapping);
+					m.color = getVal(exR, h, "matd_color", mapping);
+					m.grade = getVal(exR, h, "matd_grade", mapping);
+					m.deliveryLot = getValNum(exR, h, "matd_deliveryLot", mapping);
+					m.blendingRatio = getValNum(exR, h, "matd_blendingRatio", mapping);
+					m.smallLotEx = getValNum(exR, h, "matd_smallLotEx", mapping);
+					m.materialPrice = getValNum(exR, h, "matd_materialPrice", mapping);
+					m.detailType = getVal(exR, h, "matd_detailType", mapping);
+					m.specification = getVal(exR, h, "matd_specification", mapping);
+				});
+
+				const proc3Rows = extractSectionRows("プレス・配管加工費", 3, 20);
+				const proc3Header = getLocalHeader("プレス・配管加工費", "加工工程", mainHeaderRow);
+				let proc3Idx = 0;
+				proc3Rows.forEach((exR) => {
+					while (dd.processing3.length <= proc3Idx) {
+						dd.processing3.push(window.createEmptyProcessing3 ? window.createEmptyProcessing3() : { id: 'id_' + Math.random().toString(36).substr(2, 9) });
+					}
+					const p = dd.processing3[proc3Idx];
+					const h = proc3Header;
+					p.processName = getVal(exR, h, "proc3_processName", mapping);
+					p.processId = getVal(exR, h, "proc3_processId", mapping);
+					p.equipment = getVal(exR, h, "proc3_equipment", mapping);
+					p.conversionRate = getValNum(exR, h, "proc3_conversionRate", mapping) || "1";
+					p.machineRate = getValNum(exR, h, "proc3_machineRate", mapping);
+					p.machineCT = getValNum(exR, h, "proc3_machineCT", mapping);
+					p.yieldRate = getValNum(exR, h, "proc3_yieldRate", mapping);
+					p.changeoverTime = getValNum(exR, h, "proc3_changeoverTime", mapping);
+					p.outputQty = getValNum(exR, h, "proc3_outputQty", mapping);
+					p.calcPattern = getVal(exR, h, "proc3_calcPattern", mapping) || "3";
+					p.value1 = getValNum(exR, h, "proc3_cost", mapping);
+					p.remarks = getVal(exR, h, "proc3_remarks", mapping);
+					if (p.processName || p.value1) proc3Idx++;
+				});
+
+				const proc2Rows = extractSectionRows("二次加工費", 1, 20);
+				const proc2Header = getLocalHeader("二次加工費", "加工工程", mainHeaderRow);
+				let proc2Idx = 0;
+				proc2Rows.forEach((exR) => {
+					while (dd.processing2.length <= proc2Idx) {
+						dd.processing2.push(window.createEmptyProcessing2 ? window.createEmptyProcessing2() : { id: 'id_' + Math.random().toString(36).substr(2, 9) });
+					}
+					const p = dd.processing2[proc2Idx];
+					const h = proc2Header;
+					p.processName = getVal(exR, h, "proc2_processName", mapping);
+					p.processId = getVal(exR, h, "proc2_processId", mapping);
+					p.conversionRate = getValNum(exR, h, "proc2_conversionRate", mapping) || "1";
+					p.manRate = getValNum(exR, h, "proc2_manRate", mapping);
+					p.manCT = getValNum(exR, h, "proc2_manCT", mapping);
+					p.yieldRate = getValNum(exR, h, "proc2_yieldRate", mapping);
+					p.changeoverTime = getValNum(exR, h, "proc2_changeoverTime", mapping);
+					p.outputQty = getValNum(exR, h, "proc2_outputQty", mapping);
+					p.personnel = getValNum(exR, h, "proc2_personnel", mapping);
+					p.calcPattern = getVal(exR, h, "proc2_calcPattern", mapping) || "2";
+					p.remarks = getVal(exR, h, "proc2_remarks", mapping);
+					p.lotCount = getValNum(exR, h, "proc2_lotCount", mapping);
+					if (p.processName) proc2Idx++;
+				});
+
+				const partsRows = extractSectionRows("購入部品費", 1, 20);
+				const partsHeader = getLocalHeader("購入部品費", "品名", mainHeaderRow);
+				let partsIdx = 0;
+				partsRows.forEach((exR) => {
+					while (dd.partsDetail.length <= partsIdx) {
+						dd.partsDetail.push(window.createEmptyPartsDetail ? window.createEmptyPartsDetail() : { id: 'id_' + Math.random().toString(36).substr(2, 9) });
+					}
+					const p = dd.partsDetail[partsIdx];
+					const h = partsHeader;
+					p.partName = getVal(exR, h, "part_partName", mapping);
+					p.modelNumber = getVal(exR, h, "part_modelNumber", mapping);
+					p.processClass = getVal(exR, h, "part_processClass", mapping);
+					p.procurementType = getVal(exR, h, "part_procurementType", mapping);
+					p.originCountry = getVal(exR, h, "part_originCountry", mapping);
+					p.supplier = getVal(exR, h, "part_supplier", mapping);
+					p.manufacturer = getVal(exR, h, "part_manufacturer", mapping);
+					p.remarks = getVal(exR, h, "part_remarks", mapping);
+					p.quantity = getValNum(exR, h, "part_quantity", mapping);
+					p.unitPrice = getValNum(exR, h, "part_unitPrice", mapping);
+					p.daikinDrawingNo = getVal(exR, h, "part_daikinDrawingNo", mapping);
+					p.vendorDrawingNo = getVal(exR, h, "part_vendorDrawingNo", mapping);
+					if (p.partName || p.unitPrice) partsIdx++;
+				});
+
+				const pacRows = extractSectionRows("梱包費", 1, 20);
+				const pacHeader = getLocalHeader("梱包費", "所要量", mainHeaderRow);
+				let pacIdx = 0;
+				pacRows.forEach((exR) => {
+					while (dd.packaging.length <= pacIdx) {
+						dd.packaging.push(window.createEmptyPackaging ? window.createEmptyPackaging() : { id: 'id_' + Math.random().toString(36).substr(2, 9) });
+					}
+					const p = dd.packaging[pacIdx];
+					const h = pacHeader;
+					p.detailType = getVal(exR, h, "pac_detailType", mapping);
+					p.quantity = getValNum(exR, h, "pac_quantity", mapping);
+					p.unit = getVal(exR, h, "pac_unit", mapping);
+					p.unitPrice = getValNum(exR, h, "pac_unitPrice", mapping);
+					p.rotationCount = getValNum(exR, h, "pac_rotationCount", mapping);
+					p.supplier = getVal(exR, h, "pac_supplier", mapping);
+					p.piecesPerBox = getValNum(exR, h, "pac_piecesPerBox", mapping);
+					p.materialName = getVal(exR, h, "pac_materialName", mapping);
+					p.specification = getVal(exR, h, "pac_specification", mapping);
+					p.remarks = getVal(exR, h, "pac_remarks", mapping);
+					if (p.materialName || p.unitPrice) pacIdx++;
+				});
+
+				const transRow = extractSectionRows("輸送費", 1, 1)[0];
+				if (transRow) {
+					const h = getLocalHeader("輸送費", "出荷元", mainHeaderRow);
+					dd.transport.shippingOrigin = getVal(transRow, h, "trans_shippingOrigin", mapping);
+					dd.transport.deliveryDest = getVal(transRow, h, "trans_deliveryDest", mapping);
+					dd.transport.distance = getValNum(transRow, h, "trans_distance", mapping);
+					dd.transport.boxHeight = getValNum(transRow, h, "trans_boxHeight", mapping);
+					dd.transport.boxWidth = getValNum(transRow, h, "trans_boxWidth", mapping);
+					dd.transport.boxDepth = getValNum(transRow, h, "trans_boxDepth", mapping);
+					dd.transport.weight = getValNum(transRow, h, "trans_weight", mapping);
+					dd.transport.packageForm = getVal(transRow, h, "trans_packageForm", mapping);
+					dd.transport.transportCategory = getVal(transRow, h, "trans_transportCategory", mapping);
+					dd.transport.transportMethod = getVal(transRow, h, "trans_transportMethod", mapping);
+					dd.transport.logisticsPrice = getValNum(transRow, h, "trans_logisticsPrice", mapping);
+					dd.transport.boxQuantity = getValNum(transRow, h, "trans_boxQuantity", mapping);
+					dd.transport.transportQty = getValNum(transRow, h, "trans_transportQty", mapping);
+					dd.transport.handlingFee = getValNum(transRow, h, "trans_handlingFee", mapping);
+					dd.transport.otherFee = getValNum(transRow, h, "trans_otherFee", mapping);
+					dd.transport.remarks = getVal(transRow, h, "trans_remarks", mapping);
+				}
+
+				const otherRow = extractSectionRows("その他費", 1, 1)[0];
+				if (otherRow) {
+					const h = getLocalHeader("その他費", "その他費", mainHeaderRow);
+					dd.otherCost.otherCost = getValNum(otherRow, h, "other_cost", mapping);
+					dd.otherCost.item = getVal(otherRow, h, "other_item", mapping);
+					dd.otherCost.remarks = getVal(otherRow, h, "other_remarks", mapping);
+				}
+
+				const moldRow = extractSectionRows("金型費", 1, 1)[0];
+				if (moldRow) {
+					const h = getLocalHeader("金型費", "金型名称", mainHeaderRow);
+					dd.moldCost.moldName = getVal(moldRow, h, "mold_moldName", mapping);
+					dd.moldCost.storageLocation = getVal(moldRow, h, "mold_storageLocation", mapping);
+					dd.moldCost.procurementType = getVal(moldRow, h, "mold_procurementType", mapping);
+					dd.moldCost.paymentMethod = getVal(moldRow, h, "mold_paymentMethod", mapping);
+					dd.moldCost.investmentAmount = getValNum(moldRow, h, "mold_investmentAmount", mapping);
+					dd.moldCost.depreciationCount = getValNum(moldRow, h, "mold_depreciationCount", mapping);
+					dd.moldCost.supplier = getVal(moldRow, h, "mold_supplier", mapping);
+					dd.moldCost.remarks = getVal(moldRow, h, "mold_remarks", mapping);
+				}
+
+				const mgmtRow = extractSectionRows("管理費", 1, 1)[0];
+				if (mgmtRow) {
+					const h = getLocalHeader("管理費", "費目コード", mainHeaderRow);
+					dd.management.expenseCode = getVal(mgmtRow, h, "mgmt_expenseCode", mapping);
+					dd.management.ratio = getValNum(mgmtRow, h, "mgmt_ratio", mapping);
+				}
+
+				const profitRow = extractSectionRows("利益", 1, 1)[0];
+				if (profitRow) {
+					const h = getLocalHeader("利益", "費目コード", mainHeaderRow);
+					dd.profit.expenseCode = getVal(profitRow, h, "profit_expenseCode", mapping);
+					dd.profit.ratio = getValNum(profitRow, h, "profit_ratio", mapping);
+				}
+
+				if (window.renderAllDetailSections) {
+					window.renderAllDetailSections();
+				} else if (window.renderDetailTables) {
 					window.renderDetailTables();
 				}
 				const PERF_END = performance.now();
@@ -810,9 +1036,10 @@ javascript: (function () {
 
 			function findColWithKeyword(row, keyword) {
 				if (!row) return -1;
+				var k = keyword.replace(/\s/g, '');
 				for (var j = 0; j < row.length; j++) {
-					var cell = String(row[j] || '').trim();
-					if (cell.includes(keyword)) {
+					var cell = String(row[j] || '').replace(/\s/g, '');
+					if (cell.includes(k)) {
 						return j;
 					}
 				}
@@ -867,7 +1094,7 @@ javascript: (function () {
 				}
 			}
 
-			lines.push(formatLine('MAT06', [
+			lines.push(formatLine('MAT02', [
 				'1', '1', '1.000000',
 				sourceCurrency || 'JPY', targetCurrency || 'JPY', weightUnit || 'KG',
 				'', '', yieldRate, recycledWeight, recoveredWeight, recoveredPrice,
@@ -878,33 +1105,53 @@ javascript: (function () {
 			if (materialSectionRow >= 0) {
 				var headerRowIdx = -1;
 				var colZumenBango = -1;
-				var colZairyohi = -1;
-
-				for (var r = materialSectionRow; r < Math.min(materialSectionRow + 5, firstSheet.length); r++) {
+				var colTanka = -1;
+				var colKakaku = -1;
+				for (var r = materialSectionRow; r < Math.min(materialSectionRow + 8, firstSheet.length); r++) {
 					var row = firstSheet[r];
 					if (!row) continue;
 					var idx = findColWithKeyword(row, '図面番号');
+					if (idx < 0) idx = findColWithKeyword(row, '部品名称');
+					if (idx < 0) idx = findColWithKeyword(row, '素材');
+
 					if (idx >= 0) {
 						headerRowIdx = r;
 						colZumenBango = idx;
-						colZairyohi = findColWithKeyword(row, '価格');
-						if (colZairyohi < 0) colZairyohi = findColWithKeyword(row, '材料費');
 						break;
 					}
 				}
-
 				if (headerRowIdx >= 0) {
-					for (var i = headerRowIdx + 1; i < Math.min(headerRowIdx + 20, firstSheet.length); i++) {
+					for (var r = headerRowIdx + 1; r < Math.min(headerRowIdx + 4, firstSheet.length); r++) {
+						var row = firstSheet[r];
+						if (!row) continue;
+						var tankaIdx = findColWithKeyword(row, '単価');
+						var kakakuIdx = findColWithKeyword(row, '価格');
+						if (tankaIdx >= 0 || kakakuIdx >= 0) {
+							colTanka = tankaIdx;
+							colKakaku = kakakuIdx;
+							break;
+						}
+					}
+				}
+				if (headerRowIdx >= 0) {
+					var startRow = headerRowIdx + 2;
+					for (var i = startRow; i < Math.min(startRow + 20, firstSheet.length); i++) {
 						var row = firstSheet[i];
 						if (!row) continue;
 						var firstCell = String(row[0] || '').trim();
-						var secondCell = colZumenBango >= 0 ? String(row[colZumenBango] || '').trim() : '';
-
+						var zumenCell = colZumenBango >= 0 ? String(row[colZumenBango] || '').trim() : '';
 						if (firstCell.includes('合計') || firstCell.includes('小計') || firstCell.includes('購入')) break;
-						if (secondCell && secondCell.length > 0) {
+						if (zumenCell && zumenCell.length > 0 && /[A-Z0-9]/i.test(zumenCell) && !/[①-⑳⓪]/.test(zumenCell)) {
+							var price = '';
+							if (colTanka >= 0) {
+								price = String(row[colTanka] || '').trim();
+							}
+							if (!price && colKakaku >= 0) {
+								price = String(row[colKakaku] || '').trim();
+							}
 							materialRows.push({
-								code: secondCell,
-								price: colZairyohi >= 0 ? String(row[colZairyohi] || '') : ''
+								code: zumenCell,
+								price: price
 							});
 						}
 					}
@@ -912,12 +1159,12 @@ javascript: (function () {
 			}
 
 			materialRows.forEach(function (item, idx) {
-				lines.push(formatLine('MATD06_1', [
+				var sectionName = 'MATD02_' + (idx + 1);
+				lines.push(formatLine(sectionName, [
 					String(idx + 1), '04', item.code, '01', '', '', '', '', '', '', '', item.price, String(idx + 1), ''
 				]));
 			});
-
-			lines.push(formatLine('PROC03', [
+			lines.push(formatLine('PROC02', [
 				'1', '射出成形', '', '', '1.000000', 'JPY', 'JPY', '',
 				'', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''
 			]));
@@ -927,17 +1174,14 @@ javascript: (function () {
 			lines.push(formatLine('PART', [
 				'1', '1.000000', 'JPY', 'JPY', '', '', '', '', '', '', '', '', '', '', '', ''
 			]));
-			lines.push(formatLine('PAC01', [
-				'1', '1', '1.000000', 'JPY', 'JPY', '', '', '', '', '', '', '', '', ''
-			]));
-			lines.push(formatLine('LOGI01', [
-				'1', '1.000000', 'JPY', 'JPY', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'KG', 'MM', ''
-			]));
-			lines.push(formatLine('OTHER', [
-				'1', '', '1.000000', 'JPY', 'JPY', '', ''
-			]));
 			lines.push(formatLine('TOOL', [
-				'1', '1.000000', 'JPY', 'JPY', '', '', '', '', '', '', '', ''
+				'1', '1.000000', 'JPY', 'JPY', '', '1', '', '1', '1', '1', '1', ''
+			]));
+			lines.push(formatLine('EXPENSE', [
+				'1', '', '', '', '1.000000'
+			]));
+			lines.push(formatLine('PROFIT', [
+				'1', '', '', '', '1.000000'
 			]));
 			return lines.join('\r\n');
 		}
@@ -1005,7 +1249,7 @@ javascript: (function () {
 						productName: cells[6],
 						remarks: cells[7]
 					};
-				} else if (section === 'MAT06') {
+				} else if (section === 'MAT02') {
 					data.materialResin = {
 						detailNo: cells[1], quoteNo: cells[2], conversionRate: cells[3], sourceCurrency: cells[4],
 						targetCurrency: cells[5], weightUnit: cells[6], productWeight: cells[7], runnerWeight: cells[8],
@@ -1013,7 +1257,7 @@ javascript: (function () {
 						productionLot: cells[13], wasteWeight: cells[14], calcPattern: cells[15], displayPattern: cells[16],
 						remarks: cells[17]
 					};
-				} else if (section === 'MATD06_1') {
+				} else if (section.indexOf('MATD02_') === 0) {
 					data.materialDetail.push({
 						id: 'id_' + Math.random().toString(36).substr(2, 9),
 						detailNo: cells[1], procurementType: cells[2], materialCode: cells[3], deliveryForm: cells[4],
@@ -1021,7 +1265,7 @@ javascript: (function () {
 						deliveryLot: cells[9], blendingRatio: cells[10], smallLotEx: cells[11], materialPrice: cells[12],
 						detailType: cells[13], specification: cells[14]
 					});
-				} else if (section === 'PROC03') {
+				} else if (section === 'PROC02') {
 					data.processing3.push({
 						id: 'id_' + Math.random().toString(36).substr(2, 9),
 						quoteNo: cells[1], processName: cells[2], processId: cells[3], equipment: cells[4],
@@ -1048,7 +1292,7 @@ javascript: (function () {
 						originCountry: cells[9], supplier: cells[10], manufacturer: cells[11], remarks: cells[12],
 						quantity: cells[13], unitPrice: cells[14], daikinDrawingNo: cells[15], vendorDrawingNo: cells[16]
 					});
-				} else if (section === 'PAC01') {
+				} else if (section === 'PAC02') {
 					data.packaging.push({
 						id: 'id_' + Math.random().toString(36).substr(2, 9),
 						quoteNo: cells[1], detailType: cells[2], conversionRate: cells[3], sourceCurrency: cells[4],
@@ -1056,15 +1300,6 @@ javascript: (function () {
 						rotationCount: cells[9], supplier: cells[10], piecesPerBox: cells[11], materialName: cells[12],
 						specification: cells[13], remarks: cells[14]
 					});
-				} else if (section === 'LOGI01') {
-					data.transport = {
-						quoteNo: cells[1], conversionRate: cells[2], sourceCurrency: cells[3], targetCurrency: cells[4],
-						shippingOrigin: cells[5], deliveryDest: cells[6], distance: cells[7], boxHeight: cells[8],
-						boxWidth: cells[9], boxDepth: cells[10], weight: cells[11], packageForm: cells[12],
-						transportCategory: cells[13], transportMethod: cells[14], logisticsPrice: cells[15],
-						boxQuantity: cells[16], transportQty: cells[17], handlingFee: cells[18], otherFee: cells[19],
-						weightUnit: cells[20], lengthUnit: cells[21], remarks: cells[22]
-					};
 				} else if (section === 'OTHER') {
 					data.otherCost = {
 						quoteNo: cells[1], otherCost: cells[2], conversionRate: cells[3], sourceCurrency: cells[4],
@@ -1075,6 +1310,14 @@ javascript: (function () {
 						quoteNo: cells[1], conversionRate: cells[2], sourceCurrency: cells[3], targetCurrency: cells[4],
 						moldName: cells[5], storageLocation: cells[6], procurementType: cells[7], paymentMethod: cells[8],
 						investmentAmount: cells[9], depreciationCount: cells[10], supplier: cells[11], remarks: cells[12]
+					};
+				} else if (section === 'EXPENSE') {
+					data.management = {
+						quoteNo: cells[1], expenseCode: cells[2], managementFee: cells[3], ratio: cells[4]
+					};
+				} else if (section === 'PROFIT') {
+					data.profit = {
+						quoteNo: cells[1], expenseCode: cells[2], profitAmount: cells[3], ratio: cells[4]
 					};
 				}
 			});
@@ -1145,6 +1388,8 @@ javascript: (function () {
 			if (data.transport) Object.assign(details.transport, data.transport);
 			if (data.otherCost) Object.assign(details.otherCost, data.otherCost);
 			if (data.moldCost) Object.assign(details.moldCost, data.moldCost);
+			if (data.management) Object.assign(details.management, data.management);
+			if (data.profit) Object.assign(details.profit, data.profit);
 			if (!document.getElementById('detailForm').classList.contains('hidden')) {
 				window.viewDetail(drawingNumber);
 			}
