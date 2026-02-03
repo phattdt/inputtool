@@ -151,7 +151,7 @@
       border-radius: 4px;
       cursor: pointer;
       font-size: 12px;
-      margin-right: 5px;
+      white-space: nowrap;
     }
 
     .view-btn {
@@ -274,7 +274,12 @@
     }
 
     .actions-cell {
-      width: 120px;
+      width: 150px;
+    }
+
+    .action-buttons-wrapper {
+      display: flex;
+      gap: 8px;
     }
 
     .detail-row {
@@ -443,7 +448,7 @@
             <th>累進</th>
             <th>品名仕様</th>
             <th>備考</th>
-            <th style="width: 120px;">操作</th>
+            <th style="width: 150px;">操作</th>
           </tr>
         </thead>
         <tbody id="partsTableBody">
@@ -657,8 +662,10 @@
           <td><input type="text" value="${part.productName}" onchange="updatePart(${index}, 'productName', this.value)"></td>
           <td><input type="text" value="${part.remarks}" onchange="updatePart(${index}, 'remarks', this.value)"></td>
           <td class="actions-cell">
-            ${part.drawingNumber ? `<button class="action-btn view-btn" onclick="viewDetail('${part.drawingNumber}')">詳細</button>` : ''}
-            ${hasData ? `<button class="action-btn delete-btn" onclick="deletePart(${index})">削除</button>` : ''}
+            <div class="action-buttons-wrapper">
+              ${part.drawingNumber ? `<button class="action-btn view-btn" onclick="viewDetail('${part.drawingNumber}')">詳細</button>` : ''}
+              ${hasData ? `<button class="action-btn delete-btn" onclick="deletePart(${index})">削除</button>` : ''}
+            </div>
           </td>
         `;
         tbody.appendChild(row);
@@ -733,104 +740,113 @@
     function parseTxtContent(lines) {
       const data = {
         header: {},
-        mat06: {},
-        matd06: [],
-        proc03: [],
-        proc02: [],
-        part: [],
-        pac01: [],
-        logi01: {},
-        other: {},
-        tool: {}
+        materialResin: {},
+        materialDetail: [],
+        processing3: [],
+        processing2: [],
+        partsDetail: [],
+        packaging: [],
+        transport: {},
+        otherCost: {},
+        moldCost: {},
+        management: {},
+        profit: {}
       };
 
       lines.forEach(function (line) {
         const matches = line.match(/"([^"]*)"/g);
         if (!matches) return;
-        const values = matches.map(m => m.replace(/"/g, ''));
-        const section = values[0];
+        const cells = matches.map(m => m.replace(/"/g, ''));
+        const section = cells[0];
 
         if (section === 'QUOTE') {
           data.header = {
-            quoteNumber: values[1] || '',
-            deptCode: values[2] || '',
-            drawingNumber: values[3] || '',
-            process: values[4] || '',
-            progressive: values[5] || '',
-            productName: values[6] || '',
-            remarks: values[7] || ''
+            quoteNumber: cells[1],
+            deptCode: cells[2],
+            drawingNumber: cells[3],
+            process: cells[4],
+            progressive: cells[5],
+            productName: cells[6],
+            remarks: cells[7]
           };
-        } else if (section === 'MAT06') {
-          data.mat06 = {
-            detailNo: values[1], quoteNo: values[2], conversionRate: values[3],
-            sourceCurrency: values[4], targetCurrency: values[5], weightUnit: values[6],
-            productWeight: values[7], runnerWeight: values[8], yieldRate: values[9],
-            recycledWeight: values[10], recoveredWeight: values[11], recoveredPrice: values[12],
-            productionLot: values[13], wasteWeight: values[14], calcPattern: values[15],
-            displayPattern: values[16], remarks: values[17]
+        } else if (section === 'MAT02') {
+          data.materialResin = {
+            detailNo: cells[1], quoteNo: cells[2], conversionRate: cells[3], sourceCurrency: cells[4],
+            targetCurrency: cells[5], weightUnit: cells[6], productWeight: cells[7], runnerWeight: cells[8],
+            yieldRate: cells[9], recycledWeight: cells[10], recoveredWeight: cells[11], recoveredPrice: cells[12],
+            productionLot: cells[13], wasteWeight: cells[14], calcPattern: cells[15], displayPattern: cells[16],
+            remarks: cells[17]
           };
-        } else if (section === 'MATD06_1') {
-          data.matd06.push({
-            detailNo: values[1], procurementType: values[2], materialCode: values[3],
-            deliveryForm: values[4], supplier: values[5], manufacturer: values[6],
-            color: values[7], grade: values[8], deliveryLot: values[9],
-            blendingRatio: values[10], smallLotEx: values[11], materialPrice: values[12],
-            detailType: values[13], specification: values[14]
+        } else if (section.indexOf('MATD02_') === 0) {
+          data.materialDetail.push({
+            id: generateId(),
+            detailNo: cells[1], procurementType: cells[2], materialCode: cells[3], deliveryForm: cells[4],
+            supplier: cells[5], manufacturer: cells[6], color: cells[7], grade: cells[8],
+            deliveryLot: cells[9], blendingRatio: cells[10], smallLotEx: cells[11], materialPrice: cells[12],
+            detailType: cells[13], specification: cells[14]
           });
-        } else if (section === 'PROC03') {
-          data.proc03.push({
-            detailNo: values[1], processName: values[2], processId: values[3],
-            equipment: values[4], conversionRate: values[5], sourceCurrency: values[6],
-            targetCurrency: values[7], remarks: values[8], machineRate: values[9],
-            machineCT: values[10], yieldRate: values[11], changeoverTime: values[12],
-            outputQty: values[13], calcPattern: values[14]
+        } else if (section === 'PROC02' && cells[2] === '射出成形') {
+          data.processing3.push({
+            id: generateId(),
+            quoteNo: cells[1], processName: cells[2], processId: cells[3], equipment: cells[4],
+            conversionRate: cells[5], sourceCurrency: cells[6], targetCurrency: cells[7], location: cells[8],
+            machineRate: cells[9], machineCT: cells[10], yieldRate: cells[11], changeoverTime: cells[12],
+            outputQty: cells[13], calcPattern: cells[14], remarks: cells[15],
+            itemName1: cells[16], itemName2: cells[17], itemName3: cells[18], itemName4: cells[19],
+            itemName5: cells[20], itemName6: cells[21], value1: cells[22], value2: cells[23],
+            value3: cells[24], value4: cells[25], value5: cells[26], value6: cells[27], lotCount: cells[28]
           });
         } else if (section === 'PROC02') {
-          data.proc02.push({
-            detailNo: values[1], processName: values[2], processId: values[3],
-            conversionRate: values[4], sourceCurrency: values[5], targetCurrency: values[6],
-            remarks: values[7], manRate: values[8], manCT: values[9], yieldRate: values[10],
-            changeoverTime: values[11], outputQty: values[12], personnel: values[13],
-            calcPattern: values[14], lotCount: values[15]
+          data.processing2.push({
+            id: generateId(),
+            quoteNo: cells[1], processName: cells[2], processId: cells[3], conversionRate: cells[4],
+            sourceCurrency: cells[5], targetCurrency: cells[6], location: cells[7], manRate: cells[8],
+            manCT: cells[9], yieldRate: cells[10], changeoverTime: cells[11], outputQty: cells[12],
+            personnel: cells[13], calcPattern: cells[14], remarks: cells[15], lotCount: cells[16]
           });
         } else if (section === 'PART') {
-          data.part.push({
-            detailNo: values[1], conversionRate: values[2], sourceCurrency: values[3],
-            targetCurrency: values[4], partName: values[5], modelNumber: values[6],
-            processClass: values[7], procurementType: values[8], originCountry: values[9],
-            supplier: values[10], manufacturer: values[11], remarks: values[12],
-            quantity: values[13], unitPrice: values[14], daikinDrawingNo: values[15],
-            vendorDrawingNo: values[16]
+          data.partsDetail.push({
+            id: generateId(),
+            quoteNo: cells[1], conversionRate: cells[2], sourceCurrency: cells[3], targetCurrency: cells[4],
+            partName: cells[5], modelNumber: cells[6], processClass: cells[7], procurementType: cells[8],
+            originCountry: cells[9], supplier: cells[10], manufacturer: cells[11], remarks: cells[12],
+            quantity: cells[13], unitPrice: cells[14], daikinDrawingNo: cells[15], vendorDrawingNo: cells[16]
           });
-        } else if (section === 'PAC01') {
-          data.pac01.push({
-            detailNo: values[1], seqNo: values[2], conversionRate: values[3],
-            sourceCurrency: values[4], targetCurrency: values[5], quantity: values[6],
-            unit: values[7], unitPrice: values[8], rotationCount: values[9],
-            supplier: values[10], piecesPerBox: values[11], materialName: values[12],
-            specification: values[13], remarks: values[14]
+        } else if (section === 'PAC02') {
+          data.packaging.push({
+            id: generateId(),
+            quoteNo: cells[1], detailType: cells[2], conversionRate: cells[3], sourceCurrency: cells[4],
+            targetCurrency: cells[5], quantity: cells[6], unit: cells[7], unitPrice: cells[8],
+            rotationCount: cells[9], supplier: cells[10], piecesPerBox: cells[11], materialName: cells[12],
+            specification: cells[13], remarks: cells[14]
           });
         } else if (section === 'LOGI01') {
-          data.logi01 = {
-            detailNo: values[1], conversionRate: values[2], sourceCurrency: values[3],
-            targetCurrency: values[4], shippingOrigin: values[5], deliveryDest: values[6],
-            distance: values[7], boxHeight: values[8], boxWidth: values[9],
-            boxDepth: values[10], weight: values[11], packageForm: values[12],
-            transportCategory: values[13], transportMethod: values[14], logisticsPrice: values[15],
-            boxQuantity: values[16], transportQty: values[17], handlingFee: values[18],
-            otherFee: values[19], weightUnit: values[20], lengthUnit: values[21], remarks: values[22]
+          data.transport = {
+            quoteNo: cells[1], conversionRate: cells[2], sourceCurrency: cells[3], targetCurrency: cells[4],
+            shippingOrigin: cells[5], deliveryDest: cells[6], distance: cells[7], boxHeight: cells[8],
+            boxWidth: cells[9], boxDepth: cells[10], weight: cells[11], packageForm: cells[12],
+            transportCategory: cells[13], transportMethod: cells[14], logisticsPrice: cells[15],
+            boxQuantity: cells[16], transportQty: cells[17], handlingFee: cells[18], otherFee: cells[19],
+            weightUnit: cells[20], lengthUnit: cells[21], remarks: cells[22]
           };
         } else if (section === 'OTHER') {
-          data.other = {
-            detailNo: values[1], otherCost: values[2], conversionRate: values[3],
-            sourceCurrency: values[4], targetCurrency: values[5], item: values[6], remarks: values[7]
+          data.otherCost = {
+            quoteNo: cells[1], otherCost: cells[2], conversionRate: cells[3], sourceCurrency: cells[4],
+            targetCurrency: cells[5], item: cells[6], remarks: cells[7]
           };
         } else if (section === 'TOOL') {
-          data.tool = {
-            detailNo: values[1], conversionRate: values[2], sourceCurrency: values[3],
-            targetCurrency: values[4], moldName: values[5], storageLocation: values[6],
-            procurementType: values[7], paymentMethod: values[8], investmentAmount: values[9],
-            depreciationCount: values[10], supplier: values[11], remarks: values[12]
+          data.moldCost = {
+            quoteNo: cells[1], conversionRate: cells[2], sourceCurrency: cells[3], targetCurrency: cells[4],
+            moldName: cells[5], storageLocation: cells[6], procurementType: cells[7], paymentMethod: cells[8],
+            investmentAmount: cells[9], depreciationCount: cells[10], supplier: cells[11], remarks: cells[12]
+          };
+        } else if (section === 'EXPENSE') {
+          data.management = {
+            quoteNo: cells[1], expenseCode: cells[2], managementFee: cells[3], ratio: cells[4]
+          };
+        } else if (section === 'PROFIT') {
+          data.profit = {
+            quoteNo: cells[1], expenseCode: cells[2], profitAmount: cells[3], ratio: cells[4]
           };
         }
       });
@@ -869,30 +885,18 @@
 
       const details = window.detailData[drawingNumber];
 
-      // Fill material resin
-      details.materialResin = data.mat06;
-
-      // Fill material details
-      details.materialDetail = data.matd06;
-
-      // Fill processing
-      details.processing3 = data.proc03;
-      details.processing2 = data.proc02;
-
-      // Fill parts detail
-      details.partsDetail = data.part;
-
-      // Fill packaging
-      details.packaging = data.pac01;
-
-      // Fill transport
-      details.transport = data.logi01;
-
-      // Fill other cost
-      details.otherCost = data.other;
-
-      // Fill mold cost
-      details.moldCost = data.tool;
+      // Fill sections
+      if (data.materialResin) details.materialResin = data.materialResin;
+      if (data.materialDetail) details.materialDetail = data.materialDetail;
+      if (data.processing3) details.processing3 = data.processing3;
+      if (data.processing2) details.processing2 = data.processing2;
+      if (data.partsDetail) details.partsDetail = data.partsDetail;
+      if (data.packaging) details.packaging = data.packaging;
+      if (data.transport) details.transport = data.transport;
+      if (data.otherCost) details.otherCost = data.otherCost;
+      if (data.moldCost) details.moldCost = data.moldCost;
+      if (data.management) details.management = data.management;
+      if (data.profit) details.profit = data.profit;
     }
 
     // ========== DETAIL VIEW ==========
